@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    border: 0;
+    padding: 0;
+    box-sizing: border-box;
+    vertical-align: baseline;
+}
+
+a{
+    text-decoration: none;
+    color:inherit
+}
+:root{
+    --lightColor:rgb(221, 212, 212);
+    --darkColor:rgb(14, 14, 14);
+    --color-green-modal:#5cdf5c;
+    --color-background:  rgb(15, 15, 15);
+}
+body{
+    font-family:  'Ubuntu', sans-serif;;
+}

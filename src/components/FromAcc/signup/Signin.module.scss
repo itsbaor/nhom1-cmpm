@@ -1,0 +1,124 @@
+.wrapperForm {
+    margin: 0;
+    height: 100vh;
+    background-size: auto;
+    background-position: center;
+    background-image: url("https://cdn.dribbble.com/users/4388651/screenshots/8189655/media/7bcd053b4d003875e9c111834b93455e.jpg?resize=1000x750&vertical=center");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .formItem {
+      width: 380px;
+      background: linear-gradient(35deg, #098e3e, #6bb913, #06d197);
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      border-radius: 8px;
+      padding: 24px;
+  
+      .formHeader {
+        font-size: 30px;
+        font-weight: 800;
+        padding: 38px 0;
+      }
+  
+      .loginButton {
+        height: 44px;
+        padding: 12px;
+        width: 100%;
+        color: #fff;
+        cursor: pointer;
+        background: linear-gradient(45deg, #7878be, #b91313);
+        border-radius: 23px;
+        font-size: 16px;
+        margin-bottom: 16px;
+  
+        &:active {
+          background: linear-gradient(45deg, #e1e1e6, #3d13b9, #666, #888);
+          border-radius: 46px;
+        }
+      }
+      .loginDiffrent {
+        margin: 16px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #877373;
+      }
+  
+      .contact {
+        display: flex;
+        margin-bottom: 114px;
+  
+        .contact-icon-fb {
+          color: #161d55;
+          width: 32px;
+          height: 32px;
+          cursor: pointer;
+        }
+        .contact-icon-tw {
+          width: 35px;
+          margin: 0 20px;
+          height: 35px;
+          color: #0692dd;
+          cursor: pointer;
+        }
+        .contact-icon-gg {
+          width: 35px;
+          color: #f12525;
+          height: 35px;
+          cursor: pointer;
+        }
+      }
+      .footer {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+  
+        h4 {
+          cursor: pointer;
+        }
+      }
+    }
+    .formInfor {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 32px;
+  
+      .infor {
+        margin-left: 19px;
+      }
+      .input {
+        width: 292px;
+        background-color: transparent;
+        border-bottom: 2px solid;
+        margin: 16px;
+        outline: none;
+        height: 32px;
+        padding-left: 27px;
+        color: rgba(49, 46, 46, 0.921);
+        font-size: 12px;
+        font-weight: 700;
+  
+        &::placeholder {
+          color: rgb(123, 119, 119);
+          font-size: 14px;
+          font-weight: 200;
+        }
+      }
+      h6 {
+        text-align: right;
+        cursor: pointer;
+      }
+    }
+  }
+  
+  .input-wr {
+    position: relative;
+  
+    .input-icon {
+      position: absolute;
+      top: 33%;
+      left: 20px;
+    }
+  }
+  

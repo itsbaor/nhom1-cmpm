@@ -1,0 +1,45 @@
+.wrapSearch{
+    width: 100%;
+    min-height: 92vh;
+    padding-top: 80px;
+    background: var(--color-background);
+    transition: all 0.3s ease 0s;
+
+    .wrapSearchList{
+        padding: 40px 60px;
+        display: grid;
+        gap: 8px;
+        .movieItem{
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+            height: 200px;
+            margin: 20px 0px;
+            border-radius: 12px;
+            overflow: hidden;
+            transform: scale(1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            span{
+                position: absolute;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+                text-align: center;
+                padding: 4px;
+                background: rgba(0, 0, 0, 0.5);
+                color: var(--lightColor);
+            }
+        }
+    }
+    .movieErr{
+        padding: 5rem 8rem;
+        color: var(--lightColor);
+    }
+}
