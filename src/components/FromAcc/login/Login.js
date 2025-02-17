@@ -18,6 +18,11 @@ function Login(props) {
       history("/home");
     }, 1000);
   };
+  const handleSignUp = () => {
+    setTimeout(() => {
+      history("/signup");
+    }, 1000);
+  };
   return (
     <div className={cx("wrapperForm")}>
       <div className={cx("formItem")}>
@@ -64,7 +69,7 @@ function Login(props) {
 
         <div className={cx("footer")}>
           <span className={cx("footer-ask")}>Have not account yet?</span>
-          <h4>SIGN UP</h4>
+          <h4 onClick={handleSignUp}>SIGN UP</h4>
         </div>
       </div>
     </div>
