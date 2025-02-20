@@ -1,5 +1,6 @@
 package com.nhom1.socialmedia.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nhom1.socialmedia.model.enumType.Status_User;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "user")
+@Table(name = "user1")
 
 public class User {
         @Id

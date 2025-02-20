@@ -22,5 +22,4 @@ public class UserController {
     public ResponseEntity<?> create(@RequestBody UserDto dto){
         return userService.create(dto);
     }
-
 }
