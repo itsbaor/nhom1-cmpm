@@ -1,13 +1,6 @@
-# MERN Ecommerce Application
+# Social Media Application
 
-<code>Currently under construction for additional features</code>
-
-# Description
-
-Full-stack ecommerce application built with MERN stack. This project has two features:
-
-1. Buyers register and browse the marketplace while interacting with products across different categories.
-2. Admins control and manage the marketplace items and customer acounts.
+<code>BTL CNPM</code>
 
 # Getting Started
 
