@@ -64,18 +64,30 @@ public class PostsServiceImpl implements PostsService {
         }
     }
 
-//    @Override
-//    public ResponseEntity<?> update(PostRequestDto dto,Long id){
-//
-//        //check id co ton tai khong
-//        Optional<Posts> posts = postsRepository.findById(id);
-//
-//        if(posts.isEmpty()){
-//            logger.error("Id không tồn tại");
-//            return ResponseEntity.badRequest().body(new PostRequestDto(false, "Id không chính xác", null));
-//        }
-//
-//
-//
-//    }
+    @Override
+    public ResponseEntity<?> update(PostRequestDto dto,Long id){
+
+        //check id co ton tai khong
+        Optional<Posts> posts = postsRepository.findById(id);
+
+        if(posts.isEmpty()){
+            logger.error("Id không tồn tại");
+            return ResponseEntity.badRequest().body(new PostRequestDto(false, "Id không chính xác", null));
+        }
+
+        Posts updatePost = posts.get();
+
+        updatePost.setImage(dto.getImage());
+        updatePost.setContent(dto.getContent());
+        updatePost.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+
+        try {
+            postsRepository.save(updatePost);
+            logger.info(" Update Posts successfully:");
+            return ResponseEntity.ok("User Update successfully");
+        } catch (Exception e) {
+            logger.error("Error creating user: " + e.getMessage());
+            throw new AppException(ErrorCode.UNCATEGORYZED_EXCEPTION);
+        }
+    }
 }
