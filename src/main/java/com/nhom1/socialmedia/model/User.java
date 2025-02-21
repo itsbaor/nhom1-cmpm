@@ -19,7 +19,7 @@ public class User {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
         private Long id;
-
+//sua thanh fullname
         @Column(name = "first_name")
         private String firstName;
 
