@@ -28,9 +28,9 @@ function App() {
       <WishItemsProvider>
         <SearchProvider>
           <Router >
-            <Header />
+            {/* <Header /> */}
             <Routes>
-              <Route index element={<Home />}/>
+              <Route index element={<Login />}/>
               <Route path="/account">
                 <Route path="me" element={<MyAccount/>}/>
                 <Route path="manage" element={<ManageAccount/>}/>
