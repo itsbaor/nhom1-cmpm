@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const SuggestFriend = () => {
-    return (
-        <div>
-            alo
-        </div>
-    );
-}
+  return <div>alo</div>;
+};
 
 export default SuggestFriend;
