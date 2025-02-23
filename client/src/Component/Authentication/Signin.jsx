@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { TextField } from "@mui/material";
 //Dùng để gửi action đăng nhập loginUser
 import { useDispatch } from "react-redux";
+
 import { loginUser } from "../../Store/Auth/action";
 //Dùng để chuyển hướng trang sau khi đăng nhập thành công
 import { useNavigate } from "react-router-dom";
@@ -68,8 +69,11 @@ const Signin = () => {
           type="email"
           label="email"
           variant="outlined"
+          //Gán giá trị
           value={formik.values.email}
+          // Cập nhật giá trị khi người dùng nhập
           onChange={formik.handleChange}
+          // Kiểm tra đã rời khỏi ô nhập chưa
           onBlur={formik.handleBlur}
         />
 

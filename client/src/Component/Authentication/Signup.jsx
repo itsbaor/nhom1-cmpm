@@ -1,3 +1,4 @@
+//Tạo UI
 import {
   Button,
   Grid2,
@@ -6,18 +7,28 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+//Hỗ trợ quản lý form
 import { useFormik } from "formik";
+
 import React from "react";
+//Dùng để gửi action đăng nhập loginUser
 import { useDispatch } from "react-redux";
+//Xác thực input
 import * as Yup from "yup";
+
 import { registerUser } from "../../Store/Auth/action";
+//Màu nền cho modal
 import { blue } from "@mui/material/colors";
+//Thông báo toast
 import { toast, ToastContainer } from "react-toastify";
 
+//Định dạng của đối tượng này, có email và password phải nhập đúng định dạng và k bỏ trống
 const validateSchema = Yup.object().shape({
   email: Yup.string().email("invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
+
+//Tạo danh sách các biến để làm ngày tháng năm sinh
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 const days = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -36,10 +47,12 @@ const months = [
   { value: 12, label: "December" },
 ];
 
+//Component đăng kí, gửi action đăng kí khi người dùng submit form
 const Signup = () => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
+    //Dữ liệu ban đầu của form
     initialValues: {
       lastName: "",
       firstName: "",
@@ -53,6 +66,7 @@ const Signup = () => {
       image:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
     },
+    //Xác thực input theo schema
     validateSchema,
     onSubmit: (values, action) => {
       const { day, month, year } = values.dateOfBirth;
@@ -73,6 +87,8 @@ const Signup = () => {
       console.log("values:", values);
     },
   });
+
+  //Cập nhật giá trị ngày tháng năm sinh
   const handleDateChange = (name) => (event) => {
     formik.setFieldValue("dateOfBirth", {
       ...formik.values.dateOfBirth,
@@ -81,12 +97,17 @@ const Signup = () => {
   };
   return (
     <div className="w-full">
+      {/* Hiển thị thông báo */}
       <ToastContainer />
+      
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
         SignUp
       </h2>
+
+      {/* Form đăng kí */}
       <form onSubmit={formik.handleSubmit} className="space-y-4 text-center">
         <Grid2 container spacing={2}>
+          {/* Nhập Họ, tên, email, password */}
           <Grid2 item size={{ xs: 12 }}>
             <TextField
               fullWidth
@@ -94,10 +115,15 @@ const Signup = () => {
               name="lastName"
               variant="outlined"
               size="large"
+              //Gán giá trị
               value={formik.values.lastName}
+              //Cập nhật giá trị khi người dùng nhập
               onChange={formik.handleChange}
+              //Kiểm tra đã rời khỏi ô nhập chưa
               onBlur={formik.handleBlur}
+              //Kiểm tra ô nhập có lỗi không, nếu lỗi chuyển màu ô nhập sang màu lỗi
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              //Nếu có lỗi hiển thị nội dung lỗi bên dưới ô nhập
               helperText={formik.touched.lastName && formik.errors.lastName}
             />
           </Grid2>
@@ -142,19 +168,25 @@ const Signup = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
           </Grid2>
+
+          {/* Chọn ngày tháng năm sinh */}
           <Grid2 item size={{ xs: 4 }}>
             <InputLabel>Date</InputLabel>
             <Select
               name="day"
               fullWidth
+              // Cập nhật giá trị khi người dùng chọn
               onChange={handleDateChange("day")}
+              // Kiểm tra lỗi
               onBlur={formik.handleBlur}
               value={formik.values.dateOfBirth.day}
             >
+              Duyệt qua mảng days để lấy giá trị chọn
               {days.map((day) => (
                 <MenuItem key={day} value={day}>
                   {day}
