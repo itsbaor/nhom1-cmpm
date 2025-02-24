@@ -1,55 +1,75 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useCallback, useMemo } from "react";
 import { sendMessage } from "../../config/websocket";
 
-const ChatContext = createContext()
+const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
-    const [messages, setMessages] = useState([])
-    const [activeUser, setActiveUser] = useState(null)
-    const [notifications, setNotifications] = useState([])
-    
-    const addMessageSender = (message) => {
-        setMessages((prev) => [...prev, message]);
-        console.log("list messages: ",messages)
+    const [messages, setMessages] = useState([]);
+    const [activeUser, setActiveUser] = useState(null);
+    const [notifications, setNotifications] = useState([]);
+
+    const addMessageSender = useCallback((message) => {
+        setMessages((prev) => {
+            const updatedMessages = [...prev, message];
+            console.log("list messages:", updatedMessages);
+            return updatedMessages;
+        });
         sendMessage(message);
-    };
+    }, []);
 
-    const addMessageReceiver = (message) => {
-        setMessages((prev) => [...prev, message]);
-        console.log("list messages receiver: ",messages)
-    };
+    const addMessageReceiver = useCallback((message) => {
+        setMessages((prev) => {
+            const updatedMessages = [...prev, message];
+            console.log("list messages receiver:", updatedMessages);
+            return updatedMessages;
+        });
+    }, []);
 
-    const setMessage = (listMessage) => {
-        setMessages(listMessage)
-    }
+    const setMessage = useCallback((listMessage) => {
+        setMessages(listMessage);
+    }, []);
 
-    const selectUser = (user) => {
+    const selectUser = useCallback((user) => {
         setActiveUser(user);
-    };
+    }, []);
 
-    const resetChatContext = () => {
-        setMessages([])
-        setActiveUser(null)
-    }
+    const resetChatContext = useCallback(() => {
+        setMessages([]);
+        setActiveUser(null);
+        setNotifications([]);
+    }, []);
 
-    const setNotification = (listNotification) => {
-        setNotifications(listNotification)
-        console.log("List notification: ", listNotification)
-    }
+    const setNotification = useCallback((listNotification) => {
+        setNotifications(listNotification);
+        console.log("List notification:", listNotification);
+    }, []);
 
-    const addNotification = (notification) => {
-        setNotifications((prev) => [...prev, notification])
-        console.log("Notification add: ", notification)
-    }
+    const addNotification = useCallback((notification) => {
+        setNotifications((prev) => {
+            const updatedNotifications = [...prev, notification];
+            console.log("Notification add:", notification);
+            return updatedNotifications;
+        });
+    }, []);
+
+    const contextValue = useMemo(() => ({
+        messages,
+        activeUser,
+        notifications,
+        addMessageSender,
+        addMessageReceiver,
+        setMessage,
+        selectUser,
+        resetChatContext,
+        setNotification,
+        addNotification
+    }), [messages, activeUser, notifications, addMessageSender, addMessageReceiver, setMessage, selectUser, resetChatContext, setNotification, addNotification]);
 
     return (
-        <ChatContext.Provider value={{ messages, activeUser, notifications,
-         addMessageSender,addMessageReceiver, setMessage, selectUser, resetChatContext, setNotification, addNotification }}>
+        <ChatContext.Provider value={contextValue}>
             {children}
         </ChatContext.Provider>
     );
 };
 
-export const useChat = () => {
-    return useContext(ChatContext);
-};
+export const useChat = () => useContext(ChatContext);
