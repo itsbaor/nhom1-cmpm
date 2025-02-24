@@ -13,8 +13,9 @@ public class Posts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
-
+    @Column(name = "content")
     private String content;
     private String image;
     private LocalDateTime createdAt;

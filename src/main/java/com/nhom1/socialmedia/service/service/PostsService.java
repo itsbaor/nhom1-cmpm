@@ -7,4 +7,5 @@ public interface PostsService {
     ResponseEntity<?> posts (PostRequestDto dto);
     ResponseEntity<?> delete(Long id);
     ResponseEntity<?> update(PostRequestDto dto,Long id);
+    Object getlist(Long id, int pageIdx , int pageSize, String content);
 }

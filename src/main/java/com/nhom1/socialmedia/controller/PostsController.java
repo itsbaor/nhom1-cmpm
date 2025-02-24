@@ -15,7 +15,7 @@ public class PostsController {
     @Autowired
     PostsService postsService;
 
-    @PostMapping
+    @PostMapping("/creat")
     public ResponseEntity<?> posts(@RequestBody PostRequestDto dto){
         return postsService.posts(dto);
     }
@@ -29,5 +29,13 @@ public class PostsController {
     public ResponseEntity<?> update(@RequestBody PostRequestDto dto,
                                     @RequestParam Long id){
         return postsService.update(dto,id);
+    }
+
+    @GetMapping("/getlist")
+    public Object getlist(@RequestParam(required = false) Long id,
+                          @RequestParam(defaultValue = "1",required = false) int pageIdx,
+                          @RequestParam(defaultValue = "5",required = false) int pageSize,
+                          @RequestParam(required = false) String content){
+        return postsService.getlist(id,pageIdx -1,pageSize,content);
     }
 }

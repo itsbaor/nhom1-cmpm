@@ -5,12 +5,11 @@ import lombok.Data;
 @Data
 public class PostRequestDto {
     private boolean success;
-    private String message;
     private String content;
     private String image;
 
-    public PostRequestDto(boolean content, String image, Long id) {
-        this.content = String.valueOf(content);
+    public PostRequestDto(String content, String image, Long id) {
+        this.content = content;
         this.image = image;
     }
 
