@@ -57,7 +57,9 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/*" element={ <HomePage />} />
+      <Route path="/*" element={auth?.jwt ? <HomePage /> : <Authentication/>} />
+      {/* <Route path="/*" element={<HomePage />} /> */}
+      {/* <Route path="/*" element={<Authentication />} /> */}
     </Routes>
   );
 }
