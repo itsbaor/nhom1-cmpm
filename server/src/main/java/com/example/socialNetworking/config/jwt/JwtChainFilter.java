@@ -1,11 +1,11 @@
 package com.example.socialNetworking.config.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,20 +24,28 @@ public class JwtChainFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
-        if(jwt != null){
-            try{
-                String email = jwtUtils.getEmailFromToken(jwt);
-                String authorities = jwtUtils.getAuthoritiesFromToken(jwt);
+        if(jwt != null && jwt.startsWith("Bearer ")){
+            try {
+                if(!jwtUtils.isTokenExpired(jwt)){
+                    String email = jwtUtils.getEmailFromToken(jwt);
+                    String authorities = jwtUtils.getAuthoritiesFromToken(jwt);
+                    List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auths);
 
-                List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auths);
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }catch (Exception ex){
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (ExpiredJwtException e) {
+                // Token hết hạn, trả về 401
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token has expired");
+                response.getWriter().flush();
+                return;
+            }  catch (Exception e) {
+                // Token không hợp lệ, trả về lỗi 401
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Invalid token");
                 response.getWriter().flush();
-                return; // Chặn request, không cho nó tiếp tục đi qua filterChain
+                return;
             }
         }
         filterChain.doFilter(request,response);

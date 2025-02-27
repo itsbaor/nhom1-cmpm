@@ -1,6 +1,6 @@
-package com.nhom1.socialmedia.repository;
+package com.example.socialNetworking.repository;
 
-import com.nhom1.socialmedia.model.Posts;
+import com.example.socialNetworking.model.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
