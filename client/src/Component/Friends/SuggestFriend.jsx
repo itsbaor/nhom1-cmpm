@@ -1,7 +1,7 @@
 import React from "react";
 
 const SuggestFriend = () => {
-  return <div>alo</div>;
+  return <div>Gợi ý bạn bè</div>;
 };
 
 export default SuggestFriend;

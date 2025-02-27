@@ -11,12 +11,12 @@ export const formatTimeDifference = (createdAt) => {
     const diffInMonths = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 30));  // khoảng 30 ngày
   
     // Kiểm tra và trả về kết quả dựa trên mốc thời gian
-    if (diffInMonths >= 1) return `${diffInMonths} tháng`;
-    if (diffInWeeks >= 1) return `${diffInWeeks} tuần`;
-    if (diffInDays >= 1) return `${diffInDays} ngày`;
-    if (diffInHours >= 1) return `${diffInHours} giờ`;
-    if (diffInMinutes >= 1) return `${diffInMinutes} phút`;
+    if (diffInMonths >= 1) return `${diffInMonths} month`;
+    if (diffInWeeks >= 1) return `${diffInWeeks} week`;
+    if (diffInDays >= 1) return `${diffInDays} day`;
+    if (diffInHours >= 1) return `${diffInHours} hours`;
+    if (diffInMinutes >= 1) return `${diffInMinutes} minute`;
   
-    return `Vừa xong`;  // Nếu khoảng cách nhỏ hơn 1 phút
+    return `Just Done`;  // Nếu khoảng cách nhỏ hơn 1 phút
   }
   

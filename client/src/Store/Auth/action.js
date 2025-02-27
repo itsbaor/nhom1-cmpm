@@ -18,9 +18,9 @@ export const loginUser = (loginData) => async (dispatch) => {
         });
 
         if(data != null) {
-            localStorage.setItem("accessToken", data.accessToken)
+            localStorage.setItem("token", data)
         }
-        dispatch({type: LOGIN_USER_SUCCESS, payload: data.accessToken})
+        dispatch({type: LOGIN_USER_SUCCESS, payload: data})
     } catch (error) {
         dispatch({type: LOGIN_USER_FAILURE, payload: error.message})
     }
@@ -30,7 +30,7 @@ export const logOut = () => async (dispatch) => {
     try {
         await api.get(`/api/users/logout`, { withCredentials: true });
         console.log("log out")
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("token");
         dispatch({ type: LOGOUT_USER, payload: null });
     } catch (error) {
         console.log("error logout: ", error.message)
