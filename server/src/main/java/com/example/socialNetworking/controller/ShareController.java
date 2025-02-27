@@ -15,8 +15,9 @@ import java.util.Optional;
 public class ShareController {
 
     @Autowired
+
     private ShareService shareService;
-    //lay danh sach nguoi dung chia se bai viet
+    //lay danh sach nguoi dung chia se bai
     @GetMapping("/{postId}/share-users")
     public ResponseEntity<List<User>> getShareUsersByPostId(@PathVariable long postId) {
         List<User> shareUsers = shareService.getShareUsersByPostId(postId);
