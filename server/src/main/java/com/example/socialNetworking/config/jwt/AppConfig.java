@@ -34,11 +34,9 @@ public class AppConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/auth/**", "/ws/**").permitAll()
-                                .requestMatchers("/roles/**").hasRole("ADMIN")
                                 .anyRequest().authenticated());
         http.addFilterBefore(jwtChainFilter(), BasicAuthenticationFilter.class);
         return http.build();
-
     }
 
     @Bean
