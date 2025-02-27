@@ -65,62 +65,41 @@ const Notification = () => {
 
       {/* Test */}
       <div className="space-y-4 mt-4">
-        {/* {notifications.map((notification) => ( */}
-          <Card
-            // key={notification.id}
-            className="cursor-pointer hover:shadow-lg transition-shadow"
-            // onClick={() => navigate(`/postDetail/${notification.idPosts}`)}
-          >
-            <CardContent className="flex items-center">
-              <Avatar
-                className="mr-4 bg-blue-500"
-                // src={notification.sender.image}
-                src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
-              />
-              <div>
-                <Typography
-                  variant="subtitle1"
-                  className="text-gray-900 font-medium"
-                >
-                  {/* {notification.title} */}
-                  Chụp ảnh
-                </Typography>
-                <p className="text-sm text-gray-400">
-                  {/* {formatTimeDifference(notification.timestamp)} */}
-                  12:00:00
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+        <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+          <CardContent className="flex items-center">
+            <Avatar
+              className="mr-4 bg-blue-500"
+              src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
+            />
+            <div>
+              <Typography
+                variant="subtitle1"
+                className="text-gray-900 font-medium"
+              >
+                Chụp ảnh
+              </Typography>
+              <p className="text-sm text-gray-400">12:00:00</p>
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card
-            // key={notification.id}
-            className="cursor-pointer hover:shadow-lg transition-shadow"
-            // onClick={() => navigate(`/postDetail/${notification.idPosts}`)}
-          >
-            <CardContent className="flex items-center">
-              <Avatar
-                className="mr-4 bg-blue-500"
-                // src={notification.sender.image}
-                src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
-              />
-              <div>
-                <Typography
-                  variant="subtitle1"
-                  className="text-gray-900 font-medium"
-                >
-                  {/* {notification.title} */}
-                  Chụp ảnh
-                </Typography>
-                <p className="text-sm text-gray-400">
-                  {/* {formatTimeDifference(notification.timestamp)} */}
-                  12:00:00
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-          
-        {/* ))} */}
+        <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+          <CardContent className="flex items-center">
+            <Avatar
+              className="mr-4 bg-blue-500"
+              src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
+            />
+            <div>
+              <Typography
+                variant="subtitle1"
+                className="text-gray-900 font-medium"
+              >
+                Chụp ảnh
+              </Typography>
+              <p className="text-sm text-gray-400">12:00:00</p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
