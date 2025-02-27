@@ -1,9 +1,7 @@
 package com.nhom1.socialmedia.controller;
 
 import com.nhom1.socialmedia.model.User;
-import com.nhom1.socialmedia.service.PostsService;
 import com.nhom1.socialmedia.service.SavePostService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/posts")
-public class PostsController {
+@RequestMapping("/posts")
+public class SavePostController {
     @Autowired
     private SavePostService savePostService;
 
