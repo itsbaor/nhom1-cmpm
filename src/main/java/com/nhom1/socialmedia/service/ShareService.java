@@ -2,13 +2,11 @@ package com.nhom1.socialmedia.service;
 
 import com.nhom1.socialmedia.model.Posts;
 import com.nhom1.socialmedia.model.User;
-import com.nhom1.socialmedia.repository.ShareRepository;
 import com.nhom1.socialmedia.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ShareService {

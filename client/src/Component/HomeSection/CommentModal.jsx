@@ -80,7 +80,7 @@ export default function CommentModal({ item, open, handleClose }) {
 
                     {/* Header */}
                     <div className="flex justify-center items-center border-b font-bold text-xl py-4 bg-gray-100">
-                        Bài viết của {item.user.fullName}
+                        Post of {item.user.fullName}
                     </div>
 
                     {/* Nội dung bài viết */}

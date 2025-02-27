@@ -5,9 +5,10 @@ import { ACCEPT_REQUEST_ADD_FRIEND_FAILURE, ACCEPT_REQUEST_ADD_FRIEND_SUCCESS, G
 export const registerUser = (registerData) => async (dispatch) => {
     try {
         const {data} = await axios.post(`${API_BASE_URL}/auth/signup`,registerData)
-        console.log(data)
+        dispatch({type: REGISTER_USER_SUCCESS, payload: data})
     } catch (error) {
-        dispatch({type: REGISTER_USER_FAILURE, payload: error.message})
+        console.log("error signup: ", error)
+        dispatch({type: REGISTER_USER_FAILURE, payload: error.response.data})
     }
 }
 
@@ -18,11 +19,11 @@ export const loginUser = (loginData) => async (dispatch) => {
         });
 
         if(data != null) {
-            localStorage.setItem("accessToken", data.accessToken)
+            localStorage.setItem("token", data)
         }
-        dispatch({type: LOGIN_USER_SUCCESS, payload: data.accessToken})
+        dispatch({type: LOGIN_USER_SUCCESS, payload: data})
     } catch (error) {
-        dispatch({type: LOGIN_USER_FAILURE, payload: error.message})
+        dispatch({type: LOGIN_USER_FAILURE, payload: error.response.data})
     }
 }
 

@@ -36,14 +36,7 @@ const Friend = () => {
         </div>
       </div>
 
-      {/* Nội dung chính */}
-      <div className="flex-1 p-6">
-        <Routes>
-          <Route path="reqfr" element={<RequestAddFriend />} />
-          <Route path="sendrqfr" element={<SendRequireAddFriend />} />
-          <Route path="suggestfr" element={<SuggestFriend />} />
-        </Routes>
-      </div>
+      
     </Grid2>
   );
 };
