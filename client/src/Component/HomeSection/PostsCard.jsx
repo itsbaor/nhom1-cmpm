@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
@@ -8,31 +8,53 @@ import { Avatar } from '@mui/material';
 import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { hiddenPosts, hiddenUser, likePosts, removelikePosts } from '../../Store/Posts/Action';
+import { deletePosts, hiddenPosts, hiddenUser, likePosts, removelikePosts } from '../../Store/Posts/Action';
 import CommentModal from './CommentModal';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import UpdatePosts from './UpdatePosts';
+import { toast, ToastContainer } from 'react-toastify';
+import { CLEAR_POST_SUCCESS } from '../../Store/Posts/ActionType';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-const PostsCard = ({item}) => {
+const PostsCard = ({ item }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const auth = useSelector(store => store.auth)
-    const [isMore, setIsMore] = useState(false)
+    const [isUpdatePost, setIsUpdatePost] = React.useState(false);
+    const handleOpenUpdatePost = () => {
+        setIsUpdatePost(true);
+        handleCloseMore()
+    }
+    const handleCloseUpdatePost = () => setIsUpdatePost(false);
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openMore = Boolean(anchorEl);
+    const handleClickMore = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMore = () => {
+        setAnchorEl(null);
+    };
+
+    const { auth, post } = useSelector(store => store)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
     const handleProfile = () => {
         navigate(`/profile/${item?.user?.id}`)
     }
 
     const handleBlockUser = () => {
         dispatch(hiddenUser(item.id))
+        handleCloseMore()
     }
 
     const handleHiddenPost = () => {
         dispatch(hiddenPosts(item.id))
-        console.log("item.id:", item.id)
+        handleCloseMore()
     }
 
     const handleLikePost = () => {
@@ -43,8 +65,44 @@ const PostsCard = ({item}) => {
         dispatch(removelikePosts(item?.id))
     }
 
+    const handleDeletePost = () => {
+        dispatch(deletePosts(item?.id))
+        handleCloseMore()
+        toast.success("Delete Post Success!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+
+    const handleNotifyUpdatePostSuccess = () => {
+        toast.success("Update Post success!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        dispatch({ type: CLEAR_POST_SUCCESS })
+    }
+
+    useEffect(() => {
+        if (post.successMessage) {
+            handleNotifyUpdatePostSuccess()
+        }
+    }, [post.successMessage])
+
     return (
         <div className="flex w-full border-b-2 bg-white py-3 hover:bg-gray-50 transition duration-200">
+            <ToastContainer />
             <Avatar
                 onClick={handleProfile}
                 className="mt-3 ml-3 border-2 border-green-400 shadow-sm"
@@ -56,31 +114,45 @@ const PostsCard = ({item}) => {
                         <p className="font-bold text-xl ">{item?.user?.fullName}</p>
                         <p className="text-sm text-gray-400">{formatTimeDifference(item?.createdAt)}</p>
                     </div>
-                    <MoreHorizOutlinedIcon className='text-right cursor-pointer' onClick={() => setIsMore(!isMore)} />
-                    {isMore && (
-                        <div className="absolute right-0 mt-5 w-40 bg-white shadow-lg rounded-lg p-2">
-                            {item.user.id == auth.user.id ? (
-                                <ul className="text-sm text-gray-700">
-                                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Edit</li>
-                                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Delete</li>
-                                </ul>
-                            ) : (
-                                <ul className="text-sm text-gray-700">
-                                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" 
-                                        onClick={handleHiddenPost}
-                                    >
-                                        Hidden
-                                    </li>
-                                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                     onClick={handleBlockUser}
-                                    >
-                                        Block
-                                    </li>
-                                </ul>)
-                            }
+                    <Button
+                        id="basic-button"
+                        aria-controls={openMore ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openMore ? 'true' : undefined}
+                        onClick={handleClickMore}
+                    >
+                        <MoreHorizOutlinedIcon className='text-right' />
+                    </Button>
+                    {item.user.id == auth.user.id ? (
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={openMore}
+                            onClose={handleCloseMore}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleOpenUpdatePost}>Edit</MenuItem>
+                            <MenuItem onClick={handleDeletePost}>Delete </MenuItem>
+                        </Menu>
+                    ) : (
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleHiddenPost}> Hidden</MenuItem>
+                            <MenuItem onClick={handleBlockUser}>Block</MenuItem>
+                        </Menu>
+                    )
+                    }
 
-                        </div>
-                    )}
+
                 </div>
                 <p className="mt-2 text-gray-800">{item?.content}</p>
                 {item?.image && (
@@ -92,7 +164,7 @@ const PostsCard = ({item}) => {
                 )}
                 <div className="pt-4 flex justify-between items-center w-full">
                     <div className="flex space-x-6">
-                        {item?.liked ?(
+                        {item?.liked ? (
                             <div
                                 onClick={handleRemoveLikePost}
                                 className="text-pink-500 flex space-x-2 cursor-pointer hover:text-pink-600"
@@ -105,10 +177,10 @@ const PostsCard = ({item}) => {
                                 onClick={handleLikePost}
                                 className="text-gray-600 flex space-x-2 cursor-pointer hover:text-pink-500"
                             >
-                                <span>{item?.totalLikes}</span>                                
+                                <span>{item?.totalLikes}</span>
                                 <FavoriteBorderOutlinedIcon />
                             </div>
-                            )}
+                        )}
                         <div
                             className="flex space-x-2 cursor-pointer text-gray-600 hover:text-blue-600"
                             onClick={handleOpen}
@@ -125,6 +197,12 @@ const PostsCard = ({item}) => {
                 item={item}
                 open={open}
                 handleClose={handleClose}
+            />
+
+            <UpdatePosts
+                item={item}
+                open={isUpdatePost}
+                handleClose={handleCloseUpdatePost}
             />
         </div>
     );

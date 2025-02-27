@@ -100,43 +100,45 @@ const CommentCard = ({comment,postId}) => {
                     <p onClick={handleReplyClick}>reply</p>
                 </div>
                 {(containReplyComment && !showReplyComment) && (
-                    <p 
-                        className='text-sm text-gray-400 cursor-pointer pl-5 mt-2'
+                    <p className='text-sm text-gray-400 cursor-pointer pl-5 mt-2'
                         onClick={() => setShowReplyComment(true)}>Xem phản hồi...</p>
                 )}
                 {showReplyComment && (
-                    comment.replies.map((reply) => (
-                        <div>
-                             <p 
-                                    className='text-sm text-gray-400 cursor-pointer pl-5 mt-2'
-                                    onClick={() => setShowReplyComment(false)}
-                                >Ẩn phản hồi</p>
-                            <div key={reply.id} className='pt-3 flex space-x-4 w-full pl-4'>
-                                <Avatar src={reply?.user?.image} />
-                                <div>
-                                    <div className='flex space-x-3'>
-                                        <p className='font-bold'>{reply?.user?.fullName}</p>
-                                        <p>{renderContentComment(reply)}</p>
-                                    </div>
-                                    <div className='flex text-gray-500 text-sm space-x-5 cursor-pointer'>
-                                        <p>{formatTimeDifference(reply?.createdAt)}</p>
-                                        {reply?.liked ? (
-                                            <p
-                                                onClick={() => handleDislikeComment(reply)}
-                                                className={"text-pink-500"}
-                                            >
-                                                {reply?.totalLikes} likes
-                                            </p>
-                                        ) : (
-                                            <p
-                                                onClick={() => handleLikeComment(reply)}
-                                                className={"text-black"}
-                                            >
-                                                {reply?.totalLikes} likes
-                                            </p>
-                                        )}
-                                        <p onClick={() => handleReplyClick(reply)}>reply</p>
-                                    </div>
+                    <p
+                        className='text-sm text-gray-400 cursor-pointer pl-5 mt-2'
+                        onClick={() => setShowReplyComment(false)}
+                    >
+                        Ẩn phản hồi
+                    </p>
+                )}
+                
+                {showReplyComment && (
+                    comment.replies.map((reply) => ( 
+                        <div key={reply.id} className='pt-3 flex space-x-4 w-full pl-4'>
+                            <Avatar src={reply?.user?.image} />
+                            <div>
+                                <div className='flex space-x-3'>
+                                    <p className='font-bold'>{reply?.user?.fullName}</p>
+                                    <p>{renderContentComment(reply)}</p>
+                                </div>
+                                <div className='flex text-gray-500 text-sm space-x-5 cursor-pointer'>
+                                    <p>{formatTimeDifference(reply?.createdAt)}</p>
+                                    {reply?.liked ? (
+                                        <p
+                                            onClick={() => handleDislikeComment(reply)}
+                                            className={"text-pink-500"}
+                                        >
+                                            {reply?.totalLikes} likes
+                                        </p>
+                                    ) : (
+                                        <p
+                                            onClick={() => handleLikeComment(reply)}
+                                            className={"text-black"}
+                                        >
+                                            {reply?.totalLikes} likes
+                                        </p>
+                                    )}
+                                    <p onClick={() => handleReplyClick(reply)}>reply</p>
                                 </div>
                             </div>
                         </div>
