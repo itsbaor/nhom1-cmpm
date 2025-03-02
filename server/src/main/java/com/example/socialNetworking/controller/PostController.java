@@ -71,6 +71,7 @@ public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") Stri
 
         List<Posts> posts = postsService.getAllPosts(lastCreatedAt,size,user);
 
+        //doi sang dto
         List<PostsDto> postsDtos = new ArrayList<>();
         for(Posts post : posts){
             postsDtos.add(PostsMapper.INSTANCE.postsToPostsDto(post, user, CommentMapper.INSTANCE));

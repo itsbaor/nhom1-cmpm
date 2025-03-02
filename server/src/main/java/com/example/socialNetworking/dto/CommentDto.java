@@ -25,7 +25,7 @@ public class CommentDto {
 
     private UserDto user;
 
-    private CommentDto parentComment;
+    private CommentDto parentComment;//Binh luan phan hoi
 
     private List<CommentDto> replies = new ArrayList<>();
 

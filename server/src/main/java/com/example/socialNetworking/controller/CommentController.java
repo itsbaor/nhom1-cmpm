@@ -6,23 +6,23 @@ import com.example.socialNetworking.dto.PostsDto;
 import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.NotificationMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
+import com.example.socialNetworking.model.Comment;
 import com.example.socialNetworking.model.Notification;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
 import com.example.socialNetworking.request.PostsRequest;
 import com.example.socialNetworking.request.ReplyCommentRequest;
+import com.example.socialNetworking.request.UpdateCommentRequest;
 import com.example.socialNetworking.service.CommentService;
 import com.example.socialNetworking.service.NotificationService;
+import com.example.socialNetworking.service.PostsService;
 import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -68,7 +68,8 @@ public class CommentController {
 
     @PostMapping("/reply")
     public ResponseEntity<PostsDto> replyCommentPost(
-            @RequestHeader("Authorization") String jwt,@RequestBody ReplyCommentRequest reqReply) {
+            @RequestHeader("Authorization") String jwt,
+            @RequestBody ReplyCommentRequest reqReply) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
@@ -78,5 +79,18 @@ public class CommentController {
         return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
     }
 
+    @PostMapping("/Update")
+    public ResponseEntity<PostsDto> updateCommentPost(
+            @RequestHeader("Authorization") String jwt,
+            @RequestBody Comment dto){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User user = userService.getUserByEmail(email);
+
+        Posts posts = commentService.updateCommentPosts(dto,user);
+        //map tu post sang postdto
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts, user,CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto,HttpStatus.CREATED);
+    }
 
 }

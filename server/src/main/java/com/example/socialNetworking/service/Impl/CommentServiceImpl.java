@@ -1,5 +1,6 @@
 package com.example.socialNetworking.service.Impl;
 
+import com.example.socialNetworking.dto.PostsDto;
 import com.example.socialNetworking.exception.CommentException;
 import com.example.socialNetworking.exception.UserException;
 import com.example.socialNetworking.model.Comment;
@@ -10,9 +11,11 @@ import com.example.socialNetworking.repository.PostsRepository;
 import com.example.socialNetworking.repository.UserRepository;
 import com.example.socialNetworking.request.PostsRequest;
 import com.example.socialNetworking.request.ReplyCommentRequest;
+import com.example.socialNetworking.request.UpdateCommentRequest;
 import com.example.socialNetworking.service.CommentService;
 import com.example.socialNetworking.service.PostsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,12 +50,28 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Posts updateCommentPosts(Comment dto, User user){
+
+        Comment findComment = commentRepository.findById(dto.getId())
+                .orElseThrow(() -> new CommentException("Not found comment"));
+
+        if(dto.getContent() != null && !dto.getContent().trim().isEmpty())
+            findComment.setContent(dto.getContent());
+
+        if(dto.getImage() != null && !dto.getImage().trim().isEmpty())
+            findComment.setImage(dto.getImage());
+
+        return commentRepository.save(findComment).getPosts();
+    }
+
+    @Override
     public Posts createReplyComment(ReplyCommentRequest reqReply, User user) {
         Posts posts = postsService.findById(reqReply.getPostId());
         Comment findComment = commentRepository.findById(reqReply.getCommentId())
                 .orElseThrow(() -> new CommentException("Not found comment"));
 
         Comment comment = new Comment();
+
         comment.setPosts(posts);
         comment.setCreatedAt(LocalDateTime.now());
         comment.setParentComment(findComment);
