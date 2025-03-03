@@ -12,8 +12,8 @@ export const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("accessToken");
-        console.log("accesstoken:", token) // Lấy JWT mới nhất từ localStorage
+        const token = localStorage.getItem("token");
+        console.log("token:", token) // Lấy JWT mới nhất từ localStorage
         if (token) {
             config.headers["Authorization"] = `Bearer ${token}`; // Cập nhật header Authorization
         }
