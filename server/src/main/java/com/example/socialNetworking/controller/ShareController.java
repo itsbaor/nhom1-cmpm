@@ -1,7 +1,6 @@
-package com.nhom1.socialmedia.controller;
+package com.example.socialNetworking.controller;
 
-import com.nhom1.socialmedia.model.Posts;
-import com.nhom1.socialmedia.model.User;
+import com.example.socialNetworking.model.User;
 import com.nhom1.socialmedia.service.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import java.util.Optional;
 @RequestMapping("share")
 public class ShareController {
 
+<<<<<<< HEAD
     @Autowired
 
     private ShareService shareService;
@@ -29,4 +29,20 @@ public class ShareController {
         shareService.sharePost(postId, userId);
         return ResponseEntity.ok().build();
     }
+=======
+//    @Autowired
+//    private ShareService shareService;
+//    //lay danh sach nguoi dung chia se bai viet
+//    @GetMapping("/{postId}/share-users")
+//    public ResponseEntity<List<User>> getShareUsersByPostId(@PathVariable long postId) {
+//        List<User> shareUsers = shareService.getShareUsersByPostId(postId);
+//        return ResponseEntity.ok(shareUsers);
+//    }
+//    //chia se bai viet
+//    @PostMapping("/{postId}/share/{userId}")
+//    public ResponseEntity<?> sharePost(@PathVariable long postId, @PathVariable long userId) {
+//        shareService.sharePost(postId, userId);
+//        return ResponseEntity.ok().build();
+//    }
+>>>>>>> e8dffa0e10c4161d2bbadc86cc8dbdfbdeeedb2c
 }

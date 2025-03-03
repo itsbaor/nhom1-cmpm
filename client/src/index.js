@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {persistor, store } from './Store/store'
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ChatProvider } from './Component/Messages/ChatContext';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -16,11 +15,9 @@ root.render(
     <BrowserRouter>
      <PersistGate loading={null} persistor={persistor}>
       <Provider store={store}>
-          <GoogleOAuthProvider>
             <ChatProvider>
               <App/>
             </ChatProvider>
-          </GoogleOAuthProvider>
       </Provider>
      </PersistGate>
     </BrowserRouter>

@@ -3,18 +3,21 @@ package com.example.socialNetworking.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
-@Table(name = "likes_post")
-public class    LikePost {
+public class HiddenPosts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private Posts posts;
+    private User user;
 
     @ManyToOne
-    private User user;
+    private Posts posts;
+
+    private LocalDateTime createdAt;
 }

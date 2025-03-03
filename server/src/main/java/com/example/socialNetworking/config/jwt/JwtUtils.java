@@ -17,7 +17,7 @@ public class JwtUtils {
     public String generateAccessToken(Authentication auth){
         String jwt = Jwts.builder()
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 15 * 60 * 1000))
+                .setExpiration(new Date(new Date().getTime() + 3 * 60 * 1000))
                 .claim("email", auth.getName())
                 .claim("authorities", auth.getAuthorities())
                 .signWith(key)
@@ -31,7 +31,6 @@ public class JwtUtils {
                 .parseClaimsJws(jwt).getBody();
 
         String email = String.valueOf(claims.get("email"));
-
         return email;
     }
 
@@ -43,5 +42,14 @@ public class JwtUtils {
         String authorities = String.valueOf(claims.get("authorities"));
 
         return authorities;
+    }
+
+    // Kiểm tra token hết hạn
+    public boolean isTokenExpired(String jwt) {
+        jwt = jwt.substring(7); // Bỏ phần "Bearer "
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(jwt).getBody();
+        return claims.getExpiration().before(new Date());
+
     }
 }
