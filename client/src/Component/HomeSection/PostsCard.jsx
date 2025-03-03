@@ -47,24 +47,6 @@ const PostsCard = ({ item }) => {
         navigate(`/profile/${item?.user?.id}`)
     }
 
-    const handleBlockUser = () => {
-        dispatch(hiddenUser(item.id))
-        handleCloseMore()
-    }
-
-    const handleHiddenPost = () => {
-        dispatch(hiddenPosts(item.id))
-        handleCloseMore()
-    }
-
-    const handleLikePost = () => {
-        dispatch(likePosts(item?.id))
-    }
-
-    const handleRemoveLikePost = () => {
-        dispatch(removelikePosts(item?.id))
-    }
-
     const handleDeletePost = () => {
         dispatch(deletePosts(item?.id))
         handleCloseMore()
@@ -146,8 +128,8 @@ const PostsCard = ({ item }) => {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={handleHiddenPost}> Hidden</MenuItem>
-                            <MenuItem onClick={handleBlockUser}>Block</MenuItem>
+                            <MenuItem > Hidden</MenuItem>
+                            <MenuItem >Block</MenuItem>
                         </Menu>
                     )
                     }
@@ -166,7 +148,7 @@ const PostsCard = ({ item }) => {
                     <div className="flex space-x-6">
                         {item?.liked ? (
                             <div
-                                onClick={handleRemoveLikePost}
+                                
                                 className="text-pink-500 flex space-x-2 cursor-pointer hover:text-pink-600"
                             >
                                 <span>{item?.totalLikes}</span>
@@ -174,7 +156,7 @@ const PostsCard = ({ item }) => {
                             </div>
                         ) : (
                             <div
-                                onClick={handleLikePost}
+                                
                                 className="text-gray-600 flex space-x-2 cursor-pointer hover:text-pink-500"
                             >
                                 <span>{item?.totalLikes}</span>

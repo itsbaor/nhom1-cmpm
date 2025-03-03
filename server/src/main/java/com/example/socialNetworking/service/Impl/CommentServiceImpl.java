@@ -14,6 +14,7 @@ import com.example.socialNetworking.request.ReplyCommentRequest;
 import com.example.socialNetworking.request.UpdateCommentRequest;
 import com.example.socialNetworking.service.CommentService;
 import com.example.socialNetworking.service.PostsService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,8 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(findComment).getPosts();
     }
 
+
+
     @Override
     public Posts createReplyComment(ReplyCommentRequest reqReply, User user) {
         Posts posts = postsService.findById(reqReply.getPostId());
@@ -91,4 +94,20 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         return postsRepository.save(posts);
     }
+
+    @Override
+    public Posts deleteCommentPost(Long id, User user){
+        Comment findComment = commentRepository.findById(id)
+                .orElseThrow(() -> new CommentException("Not found comment"));
+        Posts post = findComment.getPosts();
+        commentRepository.deleteById(id);
+        return post;
+    }
+
+    @Transactional
+    @Override
+    public List<Comment> getAllComment(){
+       return commentRepository.findAll();
+    }
 }
+

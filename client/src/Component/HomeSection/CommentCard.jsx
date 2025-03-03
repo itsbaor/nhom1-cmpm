@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
-import { likeComment, likePosts, removelikeComment, repliesComment } from '../../Store/Posts/Action';
 import { getListFriend } from '../../Store/Auth/action';
 
 const CommentCard = ({comment,postId}) => {
@@ -19,16 +18,6 @@ const CommentCard = ({comment,postId}) => {
     const dispatch = useDispatch()
     const auth = useSelector(store => store.auth)
 
-    const handleLikeComment = () => {
-        dispatch(likeComment(postId,comment?.id))
-        console.log("liked true")
-    }
-
-    const handleDislikeComment = () => {
-        dispatch(removelikeComment(postId,comment?.id))
-        console.log("liked false")
-    }
-
     const handleReplyClick = () => {
         setShowReplyForm(!showReplyForm);
     };
@@ -42,7 +31,6 @@ const CommentCard = ({comment,postId}) => {
 
     const handleReplySubmit = (e) => {
         e.preventDefault();
-        dispatch(repliesComment({postId, commentId: comment.id, content: replyContent, taggedUsers}))
         console.log("Reply content:", replyContent);
         setReplyContent('');
         setTaggedUsers([]);
@@ -90,11 +78,9 @@ const CommentCard = ({comment,postId}) => {
                     <p>{formatTimeDifference(comment?.createdAt)}</p>
                     {comment?.liked ?(
                         <p 
-                            onClick={handleDislikeComment} 
                             className={"text-pink-500"}>{comment?.totalLikes}likes</p>
                         ) : (
                         <p 
-                            onClick={handleLikeComment} 
                             className={"text-black"}>{comment?.totalLikes}likes</p>
                             )}
                     <p onClick={handleReplyClick}>reply</p>
@@ -125,14 +111,12 @@ const CommentCard = ({comment,postId}) => {
                                     <p>{formatTimeDifference(reply?.createdAt)}</p>
                                     {reply?.liked ? (
                                         <p
-                                            onClick={() => handleDislikeComment(reply)}
                                             className={"text-pink-500"}
                                         >
                                             {reply?.totalLikes} likes
                                         </p>
                                     ) : (
                                         <p
-                                            onClick={() => handleLikeComment(reply)}
                                             className={"text-black"}
                                         >
                                             {reply?.totalLikes} likes

@@ -10,7 +10,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import { commentPost, likePosts, removelikePosts } from '../../Store/Posts/Action';
+import { commentPost } from '../../Store/Posts/Action';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { uploadToCloudinary } from '../../Utils/uploadToCloudinary';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
@@ -42,15 +42,6 @@ const PostDetails = () => {
             action.resetForm()
         }
     })
-
-    const handleLikePost = () => {
-        dispatch(likePosts(id))
-    }
-
-    const handleRemoveLikePost = () => {
-        dispatch(removelikePosts(id))
-    }
-
     const handleImageChange = async (event) => {
         setUploadingImage(true)
         const imgUrl = await uploadToCloudinary(event.target.files[0])
@@ -97,15 +88,15 @@ const PostDetails = () => {
                 <div className="flex justify-between items-center border-t-2 border-b-2 p-3">
                     <div className="flex space-x-8 text-gray-600">
                         {post.post?.liked ? (
-                            <div onClick={handleRemoveLikePost} className="flex items-center space-x-2 cursor-pointer text-pink-500 hover:text-pink-600">
+                            <div className="flex items-center space-x-2 cursor-pointer text-pink-500 hover:text-pink-600">
                                 <span>{post.post?.totalLikes}</span>
                                 <FavoriteOutlinedIcon />
                             </div>
                         ) : (
-                            <div onClick={handleLikePost} className="flex items-center space-x-2 cursor-pointer hover:text-pink-500">
+                            <divc className="flex items-center space-x-2 cursor-pointer hover:text-pink-500">
                                 <span>{post.post?.totalLikes}</span>
                                 <FavoriteBorderOutlinedIcon />
-                            </div>
+                            </divc>
                         )}
                         <div className="flex items-center space-x-2 cursor-pointer hover:text-blue-600">
                             <span>{post.post?.totalComment}</span>

@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import RequestAddFriend from "./RequestAddFriend";
-import SuggestFriend from "./SuggestFriend";
-import SendRequireAddFriend from "./SendRequireAddFriend";
 import { Grid2 } from "@mui/material";
 
 const Friend = () => {
@@ -36,7 +33,14 @@ const Friend = () => {
         </div>
       </div>
 
-      
+      {/* Nội dung chính */}
+      <div className="flex-1 p-6">
+        <Routes>
+          <Route path="reqfr" element={<RequestAddFriend />} />
+          <Route path="sendrqfr" element={<SendRequireAddFriend />} />
+          <Route path="suggestfr" element={<SuggestFriend />} />
+        </Routes>
+      </div>
     </Grid2>
   );
 };

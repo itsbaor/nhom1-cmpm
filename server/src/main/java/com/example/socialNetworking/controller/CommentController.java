@@ -1,6 +1,7 @@
 package com.example.socialNetworking.controller;
 
 import com.example.socialNetworking.config.jwt.JwtUtils;
+import com.example.socialNetworking.dto.CommentDto;
 import com.example.socialNetworking.dto.NotificationDto;
 import com.example.socialNetworking.dto.PostsDto;
 import com.example.socialNetworking.dto.mapper.CommentMapper;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -93,4 +96,33 @@ public class CommentController {
         return new ResponseEntity<>(postsDto,HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{ID}")
+    public ResponseEntity<PostsDto> deleteCommentPosts(
+            @RequestHeader("Authorization") String jwt,
+            @PathVariable Long id){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User user = userService.getUserByEmail(email);
+
+        Posts posts = commentService.deleteCommentPost(id,user);
+
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts, user,CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getAll")
+    public  ResponseEntity <List<CommentDto>> getAllComment(
+            @RequestHeader("Authorization") String jwt){
+
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User user = userService.getUserByEmail(email);
+
+        List<Comment> comments = commentService.getAllComment();
+
+        List<CommentDto> commentDtos = new ArrayList<>();
+        for(Comment comment : comments){
+            commentDtos.add(CommentMapper.INSTANCE.commentToCommentDto(comment, user, CommentMapper.INSTANCE));
+        }
+        return new ResponseEntity<>(commentDtos,HttpStatus.OK);
+    }
 }
