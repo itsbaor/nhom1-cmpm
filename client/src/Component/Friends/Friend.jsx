@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import RequestAddFriend from "./RequestAddFriend";
-import SuggestFriend from "./SuggestFriend";
-import SendRequireAddFriend from "./SendRequireAddFriend";
 import { Grid2 } from "@mui/material";
 
 const Friend = () => {
