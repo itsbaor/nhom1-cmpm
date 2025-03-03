@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import { CLEAR_AUTH_FAILURE } from '../../Store/Auth/ActionType';
 
+//Định dạng input
 const validateSchema = Yup.object().shape({
     email : Yup.string().email("invalid email").required("Email is required"),
     password: Yup.string().required("Password is required")
@@ -16,21 +17,27 @@ const validateSchema = Yup.object().shape({
 const Signin = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    //Lấy trạng thái auth
     const auth = useSelector(store => store.auth)
     
     const formik = useFormik({
+        //Giá trị ban đầu
       initialValues:{
         email:"",
         password:"",
       },
+      //Kiểm tra dữ liệu đầu vào
       validateSchema,
       onSubmit: (values) => {
+        //Gửi dữ liệu đến server
         dispatch(loginUser(values))
+        //Chuyển hướng đến trang home
         navigate("/")
       }
     })
 
     const handleNotify = () => {
+        //nếu auth lỗi thì hiển thị thông báo
         if (auth.error) {
             toast.error(auth.error, {
                 position: "top-center",
@@ -42,6 +49,7 @@ const Signin = () => {
                 progress: undefined,
                 theme: "light",
             });
+            //Sau khi hiện thông báo, thì gửi action để tránh lặp lại
             dispatch({type: CLEAR_AUTH_FAILURE})
         }
     };
