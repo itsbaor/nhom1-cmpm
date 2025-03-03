@@ -13,6 +13,22 @@ import java.util.List;
 
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
+    List<Posts> findAllByShareUserContainsOrUser_IdOrderByCreatedAtDesc(User shareUser, Long userId);
 
+    @Query("select p from Posts p " +
+            "WHERE p.createdAt < :createdAt " +
+            "and p not in ( select hp.posts from HiddenPosts hp where hp.user.id = :userId)" +
+            "and p.user not in :hiddenUsers")
+    Page<Posts> findAllVisiblePostsByCreatedAtBefore(LocalDateTime createdAt,
+                                                     Pageable pageable,
+                                                     @Param("hiddenUsers") List<User> hiddenUsers,
+                                                     @Param("userId") Long userId);
+
+    @Query("select p from Posts p " +
+            "where p not in ( select hp.posts from HiddenPosts hp where hp.user.id = :userId)" +
+            "and p.user not in :hiddenUsers")
+    Page<Posts> findAllVisiblePosts(Pageable pageable,
+                                    @Param("hiddenUsers") List<User> hiddenUsers,
+                                    @Param("userId") Long userId);
 }
 
