@@ -38,4 +38,6 @@ public interface CommentMapper {
         dto.setContent(parentComment.getContent());
         return dto;
     }
+
+    CommentDto commentToCommentDto(Comment comment, User user, CommentMapper instance);
 }
