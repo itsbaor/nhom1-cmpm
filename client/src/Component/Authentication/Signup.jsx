@@ -8,6 +8,7 @@ import { blue } from '@mui/material/colors';
 import { toast, ToastContainer } from 'react-toastify';
 import { CLEAR_AUTH_FAILURE, CLEAR_AUTH_SUCCESS } from '../../Store/Auth/ActionType';
 
+//Định dạng input
 const validateSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required") // Phải nhập
@@ -18,6 +19,7 @@ const validateSchema = Yup.object().shape({
         .required("Confirm password is required"),
 });
 
+//Khai báo 1 số biến
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 const days = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -38,6 +40,7 @@ const months = [
 
 const Signup = () => {
     const dispatch = useDispatch();
+    //Lấy trạng thái auth
     const auth = useSelector(store => store.auth);
 
     const formik = useFormik({
@@ -53,6 +56,7 @@ const Signup = () => {
             },
             image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
         },
+        //Kiểm tra input trước khi submit
         validationSchema: validateSchema,
         onSubmit: (values, action) => {
             const { day, month, year } = values.dateOfBirth;
