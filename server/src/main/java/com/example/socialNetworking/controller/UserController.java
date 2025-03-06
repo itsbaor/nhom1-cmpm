@@ -1,8 +1,12 @@
 package com.example.socialNetworking.controller;
 
 import com.example.socialNetworking.config.jwt.JwtUtils;
+import com.example.socialNetworking.dto.PostsDto;
 import com.example.socialNetworking.dto.UserDto;
+import com.example.socialNetworking.dto.mapper.CommentMapper;
+import com.example.socialNetworking.dto.mapper.PostsMapper;
 import com.example.socialNetworking.dto.mapper.UserMapper;
+import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
 import com.example.socialNetworking.service.*;
 import com.example.socialNetworking.util.UserUtil;
@@ -27,6 +31,8 @@ import java.util.List;
 public class UserController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
+    private final HiddenUsersService hiddenUsersService;
+    private final PostsService postsService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserDto> getUserProfileByJwt(@RequestHeader("Authorization") String jwt){
@@ -62,6 +68,20 @@ public class UserController {
         userDto.setReq_user(UserUtil.isReqUser(user, req_user));
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
+
+    @PostMapping("/{postId}/hiddenUser")
+    public ResponseEntity<PostsDto> createHiddenUser(
+            @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        Posts posts = postsService.findById(postId);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
+
+        hiddenUsersService.createHiddenUser(posts.getUser().getId(), userReq);
+        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+    }
+
 
 
     @MessageMapping("/user.userOnline")
