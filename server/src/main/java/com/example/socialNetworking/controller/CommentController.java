@@ -121,7 +121,7 @@ public class CommentController {
 
         List<CommentDto> commentDtos = new ArrayList<>();
         for(Comment comment : comments){
-            commentDtos.add(CommentMapper.INSTANCE.commentToCommentDto(comment, user, CommentMapper.INSTANCE));
+            commentDtos.add(CommentMapper.INSTANCE.commentToCommentDto(comment, user));
         }
         return new ResponseEntity<>(commentDtos,HttpStatus.OK);
     }
