@@ -1,8 +1,14 @@
 package com.example.socialNetworking.repository;
 
 import com.example.socialNetworking.model.LikePost;
+import com.example.socialNetworking.model.Posts;
+import com.example.socialNetworking.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LikePostRepository extends JpaRepository<LikePost, Long> {
+import java.util.Optional;
 
+public interface LikePostRepository extends JpaRepository<LikePost, Long> {
+        LikePost findByPostsIdAndUserId(Long postsId, Long userId);
+
+        LikePost findByPostsId(Long postId);
 }

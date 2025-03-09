@@ -1,4 +1,4 @@
-package com.nhom1.socialmedia.service;
+package com.example.socialNetworking.service;
 
 
 import org.springframework.stereotype.Service;

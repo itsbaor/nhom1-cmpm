@@ -78,11 +78,11 @@ public class PostsServiceImpl implements PostsService {
         Page<Posts> postPage;
         if (lastCreatedAt == null) {
             // Nếu là lần đầu load, lấy bài mới nhất
-            postPage = postsRepository.findAllVisiblePosts(pageable,userList,user.getId());
+            postPage = postsRepository.findAllVisiblePosts(pageable,userList);
         } else {
             // Lấy bài viết có createdAt < lastCreatedAt
             postPage = postsRepository.findAllVisiblePostsByCreatedAtBefore(
-                    lastCreatedAt, pageable,userList,user.getId());
+                    lastCreatedAt, pageable,userList);
         }
         return postPage.getContent().stream().toList();
     }
