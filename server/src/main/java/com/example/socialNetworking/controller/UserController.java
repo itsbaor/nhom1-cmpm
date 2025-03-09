@@ -69,6 +69,19 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<UserDto> updateUser(@RequestHeader("Authorization") String jwt,
+                                              @RequestBody User user) {
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User req = userService.getUserByEmail(email);
+
+        User updateUser = userService.updateUser(req.getId(),user);
+
+        UserDto userDto = UserMapper.Instance.userToUserDto(updateUser);
+        userDto.setReq_user(UserUtil.isReqUser(updateUser, req));
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
     @PostMapping("/{postId}/hiddenUser")
     public ResponseEntity<PostsDto> createHiddenUser(
             @PathVariable Long postId, @RequestHeader("Authorization") String jwt){

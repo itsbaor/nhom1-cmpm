@@ -11,6 +11,8 @@ public interface UserService {
 
     User findById(Long userId);
 
+    User updateUser(Long userId, User user);
+
     List<User> findListUserUnlessOwn(String email);
 
     User updateStatusUser(Long id);

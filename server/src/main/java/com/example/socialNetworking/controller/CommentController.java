@@ -37,18 +37,21 @@ public class CommentController {
 
     private final UserService userService;
     private final CommentService commentService;
+    private final PostsService postsService;
     private final NotificationService notificationService;
     private final JwtUtils jwtUtils;
     private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/create")
-    public ResponseEntity<PostsDto> createCommmentPosts(@RequestHeader("Authorization") String jwt,
-                                                        @RequestBody PostsRequest reqPosts) {
+    public ResponseEntity<CommentDto> createCommmentPosts(@RequestHeader("Authorization") String jwt,
+                                                          @RequestBody PostsRequest reqPosts) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
-        Posts posts = commentService.createCommentPosts(reqPosts, user);
-        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts, user, CommentMapper.INSTANCE);
+        Comment comment = commentService.createCommentPosts(reqPosts, user);
+        CommentDto commentDto = CommentMapper.INSTANCE.commentToCommentDto(comment,user);
+
+        Posts posts = postsService.findById(reqPosts.getPostId());
 
         if(!posts.getUser().equals(user)){
             Notification notification = new Notification();
@@ -66,23 +69,23 @@ public class CommentController {
             messagingTemplate.convertAndSendToUser(String.valueOf(posts.getUser().getId()),"/queue/notification/", notificationDto);
         }
 
-        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(commentDto, HttpStatus.CREATED);
     }
 
     @PostMapping("/reply")
-    public ResponseEntity<PostsDto> replyCommentPost(
-            @RequestHeader("Authorization") String jwt,
-            @RequestBody ReplyCommentRequest reqReply) {
+    public ResponseEntity<CommentDto> replyCommentPost(
+            @RequestHeader("Authorization") String jwt,@RequestBody ReplyCommentRequest reqReply) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
-        Posts posts = commentService.createReplyComment(reqReply, user);
-        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts, user,CommentMapper.INSTANCE);
+        Comment comment = commentService.createReplyComment(reqReply, user);
+        CommentDto commentDto = CommentMapper.INSTANCE.commentToCommentDto(comment,user);
 
-        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(commentDto, HttpStatus.CREATED);
     }
 
-    @PostMapping("/Update")
+
+    @PutMapping("/")
     public ResponseEntity<PostsDto> updateCommentPost(
             @RequestHeader("Authorization") String jwt,
             @RequestBody Comment dto){
@@ -96,33 +99,17 @@ public class CommentController {
         return new ResponseEntity<>(postsDto,HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{ID}")
+    @DeleteMapping("/{postId}")
     public ResponseEntity<PostsDto> deleteCommentPosts(
             @RequestHeader("Authorization") String jwt,
-            @PathVariable Long id){
+            @PathVariable Long postId){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
-        Posts posts = commentService.deleteCommentPost(id,user);
+        Posts posts = commentService.deleteCommentPost(postId,user);
 
         PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts, user,CommentMapper.INSTANCE);
 
         return new ResponseEntity<>(postsDto,HttpStatus.CREATED);
-    }
-
-    @GetMapping("/getAll")
-    public  ResponseEntity <List<CommentDto>> getAllComment(
-            @RequestHeader("Authorization") String jwt){
-
-        String email = jwtUtils.getEmailFromToken(jwt);
-        User user = userService.getUserByEmail(email);
-
-        List<Comment> comments = commentService.getAllComment();
-
-        List<CommentDto> commentDtos = new ArrayList<>();
-        for(Comment comment : comments){
-            commentDtos.add(CommentMapper.INSTANCE.commentToCommentDto(comment, user));
-        }
-        return new ResponseEntity<>(commentDtos,HttpStatus.OK);
     }
 }

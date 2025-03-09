@@ -11,9 +11,9 @@ import com.example.socialNetworking.request.UpdateCommentRequest;
 import java.util.List;
 
 public interface CommentService {
-    Posts createCommentPosts(PostsRequest reqPosts, User user);
+    Comment createCommentPosts(PostsRequest reqPosts, User user);
 
-    Posts createReplyComment(ReplyCommentRequest reqReply, User user);
+    Comment createReplyComment(ReplyCommentRequest reqReply, User user);
 
     Posts updateCommentPosts(Comment dto, User user);
 

@@ -48,7 +48,7 @@ public class AuthController {
         //Tìm người dùng thông qua email
         User findUser = userRepository.findByEmail(user.getEmail());
         if(findUser != null){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists with another account");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("user already exists with another account");
         }
         //Mã hóa mật khẩu trước khi lưu vào csdl
         String password = user.getPassword();
