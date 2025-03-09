@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
+import { likeComment, likePosts, removelikeComment, repliesComment } from '../../Store/Posts/Action';
 import { getListFriend } from '../../Store/Auth/action';
 
 const CommentCard = ({comment,postId}) => {
-    console.log("comment: ", comment)
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [showFriendsList, setShowFriendList] = useState(false);
     const [replyContent, setReplyContent] = useState('');
@@ -17,6 +17,16 @@ const CommentCard = ({comment,postId}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const auth = useSelector(store => store.auth)
+
+    const handleLikeComment = (id) => {
+        dispatch(likeComment(postId,id))
+        console.log("liked true")
+    }
+
+    const handleDislikeComment = (id) => {
+        dispatch(removelikeComment(postId,id))
+        console.log("liked false")
+    }
 
     const handleReplyClick = () => {
         setShowReplyForm(!showReplyForm);
@@ -31,10 +41,12 @@ const CommentCard = ({comment,postId}) => {
 
     const handleReplySubmit = (e) => {
         e.preventDefault();
+        dispatch(repliesComment({postId, commentId: comment.id, content: replyContent, taggedUsers}))
         console.log("Reply content:", replyContent);
         setReplyContent('');
         setTaggedUsers([]);
         setShowReplyForm(false);
+        setShowReplyComment(true)
     };
 
     const renderContentComment = (comment) => {
@@ -78,9 +90,11 @@ const CommentCard = ({comment,postId}) => {
                     <p>{formatTimeDifference(comment?.createdAt)}</p>
                     {comment?.liked ?(
                         <p 
+                            onClick={() => handleDislikeComment(comment?.id)} 
                             className={"text-pink-500"}>{comment?.totalLikes}likes</p>
                         ) : (
                         <p 
+                            onClick={() => handleLikeComment(comment?.id)} 
                             className={"text-black"}>{comment?.totalLikes}likes</p>
                             )}
                     <p onClick={handleReplyClick}>reply</p>
@@ -111,12 +125,14 @@ const CommentCard = ({comment,postId}) => {
                                     <p>{formatTimeDifference(reply?.createdAt)}</p>
                                     {reply?.liked ? (
                                         <p
+                                            onClick={() => handleDislikeComment(reply.id)}
                                             className={"text-pink-500"}
                                         >
                                             {reply?.totalLikes} likes
                                         </p>
                                     ) : (
                                         <p
+                                            onClick={() => handleLikeComment(reply.id)}
                                             className={"text-black"}
                                         >
                                             {reply?.totalLikes} likes

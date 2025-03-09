@@ -1,16 +1,13 @@
 import { Avatar, Button } from '@mui/material';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect , useState } from 'react';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import PostsCard from './PostsCard';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import * as Yup from 'yup'
 import { useFormik } from 'formik';
 import { uploadToCloudinary } from '../../Utils/uploadToCloudinary';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createPosts, getAllPosts } from '../../Store/Posts/Action';
-import { initializeWebSocket } from '../../config/websocket';
-import { useChat } from '../Messages/ChatContext';
-import { updateUserStatus } from '../../Store/Auth/action';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const validateSchema = Yup.object().shape({
@@ -47,12 +44,17 @@ const HomeSection = () => {
         }
     })
 
-    useEffect(() => {
-        console.log("amount post: ",post?.posts?.length)
-        if( post.posts.length === 0 ){
-            dispatch(getAllPosts())
+    // Sử dụng useCallback để memoize hàm fetchInitialPosts
+    const fetchInitialPosts = useCallback(() => {
+        if (post?.posts?.length === 0) {
+            dispatch(getAllPosts());
         }
-    }, [auth?.jwt,dispatch]); 
+    }, [dispatch, post.posts.length]);
+
+    useEffect(() => {
+        console.log("amount post: ", post?.posts?.length);
+        fetchInitialPosts(); // Gọi hàm fetchInitialPosts
+    }, [fetchInitialPosts]);
 
     useEffect(() => {
         if (!post?.posts || post.posts.length === 0) return;

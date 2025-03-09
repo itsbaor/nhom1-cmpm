@@ -39,6 +39,7 @@ export default function CommentModal({ item, open, handleClose }) {
     const dispatch = useDispatch()
     const [selectImage, setSelectImage] = React.useState("")
     const [uploadingImage, setUploadingImage] = React.useState(false)
+    
     const formik = useFormik({
         initialValues: {
             content: "",
@@ -48,9 +49,18 @@ export default function CommentModal({ item, open, handleClose }) {
         validateSchema,
         onSubmit: (values, action) => {
             dispatch(commentPost(values))
+            setSelectImage("")
             action.resetForm()
         }
     })
+
+    const handleLikePost = () => {
+        dispatch(likePosts(item?.id))
+    }
+
+    const handleRemoveLikePost = () => {
+        dispatch(removelikePosts(item?.id))
+    }
 
     const handleImageChange = async (event) => {
         setUploadingImage(true)
@@ -103,12 +113,12 @@ export default function CommentModal({ item, open, handleClose }) {
                         <div className="flex justify-between items-center border-t-2 border-b-2 p-3">
                             <div className="flex space-x-8 text-gray-600">
                                 {item?.liked ? (
-                                    <div className="flex items-center space-x-2 cursor-pointer text-pink-500 hover:text-pink-600">
+                                    <div onClick={handleRemoveLikePost} className="flex items-center space-x-2 cursor-pointer text-pink-500 hover:text-pink-600">
                                         <span>{item?.totalLikes}</span>
                                         <FavoriteOutlinedIcon />
                                     </div>
                                 ) : (
-                                    <div className="flex items-center space-x-2 cursor-pointer hover:text-pink-500">
+                                    <div onClick={handleLikePost} className="flex items-center space-x-2 cursor-pointer hover:text-pink-500">
                                         <span>{item?.totalLikes}</span>
                                         <FavoriteBorderOutlinedIcon />
                                     </div>
