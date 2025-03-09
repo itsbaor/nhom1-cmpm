@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -33,21 +34,18 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public Posts createCommentPosts(PostsRequest reqPosts, User user) {
+    public Comment createCommentPosts(PostsRequest reqPosts, User user) {
         Posts posts = postsService.findById(reqPosts.getPostId());
 
         Comment comment = new Comment();
         comment.setContent(reqPosts.getContent());
         comment.setImage(reqPosts.getImage());
         comment.setUser(user);
-        comment.setCreatedAt(LocalDateTime.now());
+        comment.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         comment.setPosts(posts);
 
         posts.getComments().add(comment);
-
-        commentRepository.save(comment);
-
-        return postsRepository.save(posts);
+        return commentRepository.save(comment);
     }
 
     @Override
@@ -65,18 +63,15 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(findComment).getPosts();
     }
 
-
-
     @Override
-    public Posts createReplyComment(ReplyCommentRequest reqReply, User user) {
+    public Comment createReplyComment(ReplyCommentRequest reqReply, User user) {
         Posts posts = postsService.findById(reqReply.getPostId());
         Comment findComment = commentRepository.findById(reqReply.getCommentId())
                 .orElseThrow(() -> new CommentException("Not found comment"));
 
         Comment comment = new Comment();
-
         comment.setPosts(posts);
-        comment.setCreatedAt(LocalDateTime.now());
+        comment.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         comment.setParentComment(findComment);
         comment.setUser(user);
         comment.setTaggedUsers(reqReply.getTaggedUsers());
@@ -91,8 +86,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         findComment.getReplies().add(comment);
-        commentRepository.save(comment);
-        return postsRepository.save(posts);
+        return commentRepository.save(comment);
     }
 
     @Override

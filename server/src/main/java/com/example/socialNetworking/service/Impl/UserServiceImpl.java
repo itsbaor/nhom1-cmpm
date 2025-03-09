@@ -33,6 +33,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(Long userId,User req) {
+        User user = findById(userId);
+
+        if(req.getFullName() != null && !req.getFullName().trim().isEmpty()) user.setFullName(req.getFullName());
+        if(req.getImage() != null && !req.getImage().trim().isEmpty()) user.setImage(req.getImage());
+        if(req.getBackgroundImage() != null && !req.getBackgroundImage().trim().isEmpty()) user.setBackgroundImage(req.getBackgroundImage());
+        if(req.getDateOfBirth() != null) user.setDateOfBirth(req.getDateOfBirth()); // không cần kiểm tra isEmpty với Date
+        if(req.getLocation() != null && !req.getLocation().trim().isEmpty()) user.setLocation(req.getLocation());
+        if(req.getBio() != null && !req.getBio().trim().isEmpty()) user.setBio(req.getBio());
+        if(req.getNumberPhone() != null && !req.getNumberPhone().trim().isEmpty()) user.setNumberPhone(req.getNumberPhone());
+
+        return userRepository.save(user);
+    }
+
+    @Override
     public List<User> findListUserUnlessOwn(String email) {
         return userRepository.findAllUsersExceptEmail(email);
     }
