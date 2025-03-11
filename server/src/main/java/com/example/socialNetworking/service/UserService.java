@@ -3,6 +3,7 @@ package com.example.socialNetworking.service;
 import com.example.socialNetworking.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     User getUserByEmail(String email);
@@ -16,5 +17,4 @@ public interface UserService {
     List<User> findListUserUnlessOwn(String email);
 
     User updateStatusUser(Long id);
-
 }
