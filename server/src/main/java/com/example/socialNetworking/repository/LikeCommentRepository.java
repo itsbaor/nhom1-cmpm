@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface LikeCommentRepository extends JpaRepository<LikeComment, Long> {
     LikeComment findByComment_IdAndUser_Id(Long commentId, Long userId);
+
+
 }
