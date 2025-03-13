@@ -6,6 +6,7 @@ import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
+import com.example.socialNetworking.service.HiddentPostService;
 import com.example.socialNetworking.service.PostsService;
 import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,7 @@ public class PostController {
     private final PostsService postsService;
     private final UserService userService;
     private final JwtUtils jwtUtils;
+    private final HiddentPostService hiddentPostService;
 
 @PostMapping("/create")
 public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") String jwt,
@@ -128,6 +130,19 @@ public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") Stri
         Posts posts =  postsService.updatePosts(postsreq);
         PostsDto updatePosts = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
         return new ResponseEntity<>(updatePosts, HttpStatus.OK);
+    }
+
+    @PostMapping("/{postId}/hiddenPost")
+    public ResponseEntity<PostsDto> createHiddenPost(
+            @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        Posts posts = postsService.findById(postId);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
+
+        hiddentPostService.createHiddenPosts(posts, userReq);
+        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
     }
 
 }

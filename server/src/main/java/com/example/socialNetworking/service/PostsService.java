@@ -24,4 +24,5 @@ public interface PostsService {
     void deletePosts(Posts posts);
 
     Posts updatePosts(Posts postsDto);
+
 }
