@@ -17,4 +17,11 @@ public class LikeComment {
 
     @ManyToOne
     private User user;
+
+    public void setCommentId(Long commentId) {
+    }
+
+    public void setUserId(Long id) {
+
+    }
 }
