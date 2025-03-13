@@ -1,6 +1,7 @@
 package com.example.socialNetworking.service.Impl;
 
 import com.example.socialNetworking.exception.PostsException;
+import com.example.socialNetworking.model.HiddenPosts;
 import com.example.socialNetworking.model.HiddenUsers;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
