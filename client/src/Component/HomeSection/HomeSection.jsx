@@ -1,7 +1,7 @@
 import { Avatar, Button } from '@mui/material';
 import React, { useCallback, useEffect , useState } from 'react';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import PostsCard from './PostsCard';
+import PostsCard from './PostsCard.jsx';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import * as Yup from 'yup'
 import { useFormik } from 'formik';
