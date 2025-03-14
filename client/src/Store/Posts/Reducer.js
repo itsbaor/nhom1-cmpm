@@ -34,15 +34,30 @@ export const PostsReducer = (state=initialState, action) => {
             return {...state,error:null, postsUser: action.payload}
         case LIKE_POST_SUCCESS:
         case LIKE_COMMENT_SUCCESS:
-        case REPLIES_COMMENT_SUCCESS :
-        case COMMENT_POST_SUCCESS:
             return {...state,error:null, posts: state.posts.map((post) =>
                 post.id === action.payload.id ? action.payload : post)}
+        case REPLIES_COMMENT_SUCCESS :
+            return {...state,error:null, posts: state.posts.map((post) => 
+                post.id === action.payload.postId 
+                ? {
+                ...post,
+                comments: 
+                post.comments.map((comment) => 
+                    post.id === action.payload.postId ? {...comment, replies: [action.payload, ...comment.replies]} : comment)
+                }
+            : post
+        )}       
+        case COMMENT_POST_SUCCESS:
+            return {...state,error:null, posts: state.posts.map(
+                (post) => post.id === action.payload.postId ? {...post,comments: [action.payload, ...post.comments]} : post
+                )}
         case UPDATE_POSTS_SUCCESS:
             return {...state,error:null, successMessage: action.payload, posts: state.posts.map((post) =>
                                 post.id === action.payload.id ? action.payload : post)}
         case GET_POSTS_BY_ID_SUCCESS:
             return {...state,error:null, post: action.payload}
+        case LOGOUT_USER:
+            return initialState
         case HIDDEN_POST_SUCCESS:
         case HIDDEN_USER_SUCCESS:
         case DELETE_POSTS_SUCCESS:

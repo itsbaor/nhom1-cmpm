@@ -134,7 +134,7 @@ export default function CommentModal({ item, open, handleClose }) {
 
                         {/* Danh sách bình luận */}
                         <div className='px-3'>
-                            {item.comments
+                            {item?.comments
                             .sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                             .filter((comment) => comment.parentComment === null)
                             .map((comment) => (

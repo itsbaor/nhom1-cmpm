@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
-import { likeComment, likePosts, removelikeComment, repliesComment } from '../../Store/Posts/Action';
+import { likeComment,  removelikeComment, repliesComment } from '../../Store/Posts/Action';
 import { getListFriend } from '../../Store/Auth/action';
 
 const CommentCard = ({comment,postId}) => {
