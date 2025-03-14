@@ -12,6 +12,7 @@ const Notification = () => {
     const {notifications, setNotification} = useChat()
     const navigate = useNavigate()
 
+    //Lấy danh sách thông báo
     const getNotify = async () => {
         const {data} = await api.get(`${API_BASE_URL}/api/notification/listNotify/${auth?.user?.id}`)
         setNotification(data)
