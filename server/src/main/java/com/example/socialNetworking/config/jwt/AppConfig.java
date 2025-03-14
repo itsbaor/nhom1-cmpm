@@ -67,7 +67,7 @@ public class AppConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.addAllowedOrigin("http://localhost:3000");
+                cfg.addAllowedOrigin("http://localhost:3005");
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
@@ -78,7 +78,4 @@ public class AppConfig {
             }
         };
     }
-
-
-
 }

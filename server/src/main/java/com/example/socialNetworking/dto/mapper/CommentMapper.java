@@ -20,6 +20,7 @@ public interface CommentMapper {
     @Mapping(target = "liked", expression = "java(comment.getLikes().stream()" +
             ".anyMatch(like -> like.getUser() != null && like.getUser().getId().equals(req_user.getId())))")
     @Mapping(target = "parentComment", expression = "java(comment.getParentComment() != null ? commentToMinimalDto(comment.getParentComment()) : null)")
+    @Mapping(target = "postId", source = "posts.id")
     CommentDto commentToCommentDto(Comment comment,@Context User req_user);
 
     // Mapping danh sách Comment sang danh sách CommentDto

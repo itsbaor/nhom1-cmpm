@@ -123,7 +123,7 @@ const PostsCard = ({ item }) => {
                     >
                         <MoreHorizOutlinedIcon className='text-right' />
                     </Button>
-                    {item.user.id == auth.user.id ? (
+                    {item.user.id === auth.user.id ? (
                         <Menu
                             id="basic-menu"
                             anchorEl={anchorEl}
@@ -140,8 +140,8 @@ const PostsCard = ({ item }) => {
                         <Menu
                             id="basic-menu"
                             anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
+                            open={openMore}
+                            onClose={handleCloseMore}
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
                             }}

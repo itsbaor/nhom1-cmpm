@@ -25,6 +25,8 @@ public class CommentDto {
 
     private UserDto user;
 
+    private Long postId;
+
     private CommentDto parentComment;//Binh luan phan hoi
 
     private List<CommentDto> replies = new ArrayList<>();
