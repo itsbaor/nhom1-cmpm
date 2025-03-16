@@ -12,6 +12,7 @@ public class PostsDto {
     private String image;
     private LocalDateTime createdAt;
     private UserDto user;
+    private PostsDto originalPost;
 
     private int totalLikes;
     private int totalComment;
@@ -23,5 +24,4 @@ public class PostsDto {
     private boolean bookmarked;
 
     private List<CommentDto> comments;
-    private List<Long> shareUserId;
 }

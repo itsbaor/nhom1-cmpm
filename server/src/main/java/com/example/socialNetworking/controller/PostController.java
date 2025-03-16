@@ -6,6 +6,7 @@ import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
+import com.example.socialNetworking.request.PostsRequest;
 import com.example.socialNetworking.service.PostsService;
 import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,49 +23,30 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
 public class PostController {
-//    @Autowired
-//    private SavePostService savePostService;
-//
-//    //Lưu bài viết vào bookmark
-//    @PostMapping("/{postId}/bookmark/userId")
-////    @PathVariable biến đường dẫn
-//    public ResponseEntity<?> bookmarkPost(@PathVariable Long postId, @PathVariable Long userId) {
-//        savePostService.bookmarkPost(postId, userId);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    //Xóa bài viết khỏi danh sach bookmark
-//    @DeleteMapping("/{postId}/bookmark/{userId}")
-//    public ResponseEntity<?> unbookmarkPost(@PathVariable Long postId, @PathVariable Long userId) {
-//        savePostService.unbookmarkPost(postId, userId);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    //lấy danh sách người dùng đã lưu
-//    @GetMapping("/{postId}/bookmark-users")
-//    public ResponseEntity<List<User>> getBookmarkUsers(@PathVariable Long postId) {
-//        List<User> bookmarkUsers = savePostService.getBookmarkUsers(postId);
-//        return ResponseEntity.ok(bookmarkUsers);}
-
     private final PostsService postsService;
     private final UserService userService;
     private final JwtUtils jwtUtils;
 
-@PostMapping("/create")
-public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") String jwt,
-                                            @RequestBody Posts posts){
-    String email = jwtUtils.getEmailFromToken(jwt);
-    User user = userService.getUserByEmail(email);
+    @PostMapping("/create")
+    public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") String jwt,
+                                                @RequestBody Posts posts){
+        try {
+            String email = jwtUtils.getEmailFromToken(jwt);
+            User user = userService.getUserByEmail(email);
 
-    Posts createPost =  postsService.createPosts(posts, user);
-    PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(createPost, user, CommentMapper.INSTANCE);
-    return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
-}
+            Posts createPost =  postsService.createPosts(posts, user);
+            PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(createPost, user, CommentMapper.INSTANCE);
+            return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<PostsDto>> getAllPosts(
             @RequestHeader("Authorization") String jwt,
-            @RequestParam(required = false) LocalDateTime lastCreatedAt,
+            @RequestParam(name = "lastCreatedAt", required = false) LocalDateTime lastCreatedAt,
             @RequestParam("size") int size){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
@@ -129,5 +111,30 @@ public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") Stri
         PostsDto updatePosts = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
         return new ResponseEntity<>(updatePosts, HttpStatus.OK);
     }
+
+    @PostMapping("/sharepost")
+    public ResponseEntity<PostsDto> sharePost(
+            @RequestHeader("Authorization") String jwt, @RequestBody PostsRequest postsRequest){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        Posts posts = postsService.sharePost(userReq, postsRequest);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/{postId}/bookmark")
+    public ResponseEntity<PostsDto> bookmarkPost(
+            @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        Posts posts = postsService.bookmarkPost(userReq, postId);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto, HttpStatus.OK);
+    }
+
 
 }

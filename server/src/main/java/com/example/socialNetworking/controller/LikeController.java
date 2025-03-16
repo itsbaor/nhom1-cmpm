@@ -43,7 +43,8 @@ public class LikeController {
      * @return ResponseEntity chứa thông tin bài viết sau khi like
      */
     @GetMapping("/post/{postId}")
-    public ResponseEntity<PostsDto> likePosts(@PathVariable("postId") Long postId, @RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<PostsDto> likePosts(
+            @PathVariable("postId") Long postId, @RequestHeader("Authorization") String jwt) {
         // Lấy email từ token
         String email = jwtUtils.getEmailFromToken(jwt);
         // Lấy thông tin người dùng từ email

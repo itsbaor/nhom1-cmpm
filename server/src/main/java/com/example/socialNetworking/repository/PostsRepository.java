@@ -18,13 +18,13 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     @Query("select p from Posts p " +
             "WHERE p.createdAt < :createdAt " +
             "and p.user not in :hiddenUsers")
-    Page<Posts> findAllVisiblePostsByCreatedAtBefore(LocalDateTime createdAt,
-                                                     Pageable pageable,
-                                                     @Param("hiddenUsers") List<User> hiddenUsers);
+    Page<Posts> findAllVisiblePostsByCreatedAtBefore(
+            @Param("createdAt") LocalDateTime createdAt,
+            @Param("hiddenUsers") List<User> hiddenUsers,
+            Pageable pageable);
 
     @Query("select p from Posts p " +
             "where p.user not in :hiddenUsers")
-    Page<Posts> findAllVisiblePosts(Pageable pageable,
-                                    @Param("hiddenUsers") List<User> hiddenUsers);
+    Page<Posts> findAllVisiblePosts(@Param("hiddenUsers") List<User> hiddenUsers,Pageable pageable);
 }
 

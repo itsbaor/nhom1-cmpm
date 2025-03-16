@@ -17,12 +17,15 @@ import { CLEAR_POST_SUCCESS } from '../../Store/Posts/ActionType';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import SharePostModal from './SharePostModal';
 
 const PostsCard = ({ item }) => {
+    //Mở modal comment
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    //Mở modal update post
     const [isUpdatePost, setIsUpdatePost] = React.useState(false);
     const handleOpenUpdatePost = () => {
         setIsUpdatePost(true);
@@ -30,6 +33,7 @@ const PostsCard = ({ item }) => {
     }
     const handleCloseUpdatePost = () => setIsUpdatePost(false);
 
+    //Mở tác vụ cua post
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openMore = Boolean(anchorEl);
     const handleClickMore = (event) => {
@@ -38,6 +42,11 @@ const PostsCard = ({ item }) => {
     const handleCloseMore = () => {
         setAnchorEl(null);
     };
+
+    //Mở modal share post
+    const [shareOpen, setShareOpen] = React.useState(false);
+    const handleOpenShare = () => setShareOpen(true);
+    const handleCloseShare = () => setShareOpen(false);
 
     const { auth, post } = useSelector(store => store)
     const navigate = useNavigate()
@@ -140,8 +149,8 @@ const PostsCard = ({ item }) => {
                         <Menu
                             id="basic-menu"
                             anchorEl={anchorEl}
-                            open={openMore}
-                            onClose={handleCloseMore}
+                            open={open}
+                            onClose={handleClose}
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
                             }}
@@ -166,7 +175,7 @@ const PostsCard = ({ item }) => {
                     <div className="flex space-x-6">
                         {item?.liked ? (
                             <div
-                                onClick={handleRemoveLikePost}
+                                onClick={handleRemoveLikePost} 
                                 className="text-pink-500 flex space-x-2 cursor-pointer hover:text-pink-600"
                             >
                                 <span>{item?.totalLikes}</span>
@@ -188,7 +197,14 @@ const PostsCard = ({ item }) => {
                             <span>{item?.totalComment}</span>
                             <ChatBubbleOutlineOutlinedIcon />
                         </div>
-                        <ShareOutlinedIcon className="text-gray-600 hover:text-green-500 cursor-pointer" />
+                        <div
+                            className="flex space-x-2 text-gray-600 hover:text-green-500 cursor-pointer"
+                            onClick={handleOpenShare}
+                        >
+                            <span>{item?.totalShare}</span>
+                            <ShareOutlinedIcon />
+                        </div>
+                        
                     </div>
                     <BookmarkBorderOutlinedIcon className="text-gray-600 hover:text-yellow-500 cursor-pointer" />
                 </div>
@@ -203,6 +219,12 @@ const PostsCard = ({ item }) => {
                 item={item}
                 open={isUpdatePost}
                 handleClose={handleCloseUpdatePost}
+            />
+
+            <SharePostModal
+                item={item}
+                open={shareOpen}
+                handleClose={handleCloseShare}
             />
         </div>
     );

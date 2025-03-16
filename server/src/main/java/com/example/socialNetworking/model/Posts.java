@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Data
 public class Posts {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,6 +20,12 @@ public class Posts {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Posts originalPost; // nếu != null thì đây là 1 bài share
+
+    @OneToMany(mappedBy = "originalPost", cascade = CascadeType.ALL)
+    private List<Posts> sharedPosts = new ArrayList<>();
 
     @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
     private List<LikePost> likes = new ArrayList<>();

@@ -2,17 +2,12 @@ package com.example.socialNetworking.service;
 
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
+import com.example.socialNetworking.request.PostsRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PostsService {
-    public void bookmarkPost(Long userId, Long postId);
-
-    public void unbookmarkPost(Long userId, Long postId);
-
-    public List<User> getBookmarkUsers(Long postId);
-
     Posts createPosts(Posts posts, User user);
 
     List<Posts> getAllPosts(LocalDateTime lastCreatedAt, int size, User user);
@@ -24,4 +19,8 @@ public interface PostsService {
     void deletePosts(Posts posts);
 
     Posts updatePosts(Posts postsDto);
+
+    Posts sharePost(User userReq, PostsRequest postsRequest);
+
+    Posts bookmarkPost(User userReq, Long postId);
 }
