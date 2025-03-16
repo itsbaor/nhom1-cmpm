@@ -1,11 +1,13 @@
 package com.example.socialNetworking.controller;
 
 import com.example.socialNetworking.config.jwt.JwtUtils;
+import com.example.socialNetworking.dto.CommentDto;
 import com.example.socialNetworking.dto.NotificationDto;
 import com.example.socialNetworking.dto.PostsDto;
 import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.NotificationMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
+import com.example.socialNetworking.model.Comment;
 import com.example.socialNetworking.model.Notification;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
@@ -84,7 +86,8 @@ public class LikeController {
      * @return ResponseEntity chứa thông tin bài viết sau khi bỏ like
      */
     @GetMapping("/removelike/post/{postId}")
-    public ResponseEntity<PostsDto> removelikePosts(@PathVariable("postId") Long postId, @RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<PostsDto> removelikePosts(@PathVariable("postId") Long postId,
+                                                    @RequestHeader("Authorization") String jwt) {
         // Lấy thông tin người dùng từ token
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
@@ -93,4 +96,32 @@ public class LikeController {
         Posts posts = likePostService.likePosts(postId, user);
         PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts, user, CommentMapper.INSTANCE);
         return new ResponseEntity<>(postsDto, HttpStatus.OK);
-    }}
+    }
+    @GetMapping("/comment/{postId}/{commentId}")
+    public ResponseEntity<PostsDto> likeComment(@PathVariable Long postId,
+                                                @PathVariable Long commentId,
+                                                @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User user = userService.getUserByEmail(email);
+
+        Posts posts = postsService.findById(postId);
+        Comment comment = likeCommentService.likeComment(commentId, user);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,user, CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+    }
+    @GetMapping("removelike/comment/{postId}/{commentId}")
+    public ResponseEntity<PostsDto> removerLikeComment(@PathVariable Long postId,
+                                                       @PathVariable Long commentId,
+                                                       @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User user = userService.getUserByEmail(email);
+
+        Posts posts = postsService.findById(postId);
+
+        Comment comment = likeCommentService.removeLikeComment(commentId,user);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,user, CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+    }
+}

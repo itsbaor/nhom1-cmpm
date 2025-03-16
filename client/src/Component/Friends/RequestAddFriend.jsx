@@ -42,6 +42,7 @@ const RequestAddFriend = () => {
     });
   };
 
+  //Lấy dánh sách lời mời kết bạn
   useEffect(() => {
     dispatch(getAllRequestAddFriend());
   }, [auth?.requestFriend]);

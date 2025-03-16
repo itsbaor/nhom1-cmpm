@@ -1,5 +1,6 @@
 package com.example.socialNetworking.service.Impl;
 
+
 import com.example.socialNetworking.exception.PostsException;
 import com.example.socialNetworking.model.HiddenUsers;
 import com.example.socialNetworking.model.Posts;
@@ -46,7 +47,7 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
-    public List<Posts> getAllPosts(LocalDateTime lastCreatedAt,int size, User user) {
+    public List<Posts> getAllPosts(LocalDateTime lastCreatedAt, int size, User user) {
         Pageable pageable = PageRequest.of(0, size, Sort.by("createdAt").descending());
         List<HiddenUsers> hiddenUsersList = hiddenUsersRepository.findHiddenUsersByUser(user);
         List<User> userList = hiddenUsersList.stream().map(HiddenUsers::getHiddenUser).toList();

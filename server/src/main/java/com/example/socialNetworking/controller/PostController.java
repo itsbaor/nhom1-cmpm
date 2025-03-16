@@ -6,7 +6,6 @@ import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
-import com.example.socialNetworking.request.PostsRequest;
 import com.example.socialNetworking.service.PostsService;
 import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;

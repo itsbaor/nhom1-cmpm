@@ -13,7 +13,7 @@ const SendRequireAddFriend = () => {
 
   const dispatch = useDispatch();
 
-  const handleRemoveRequest = (id) => {
+  const handleRequest = (id) => {
     dispatch(requestAddFriend(id));
     toast.success("Friend request accepted!", {
       position: "top-center",
@@ -27,6 +27,7 @@ const SendRequireAddFriend = () => {
     });
   };
 
+  //Call API lấy danh sách lời mời đã gửi
   useEffect(() => {
     dispatch(getAllSend_RequestAddFriend());
   }, [auth?.requestFriend]);
@@ -37,6 +38,7 @@ const SendRequireAddFriend = () => {
       {console.log("a du: ", auth?.listSendRequestFriend)}
       {auth?.listSendRequestFriend?.length > 0 ? (
         <div className="space-y-4">
+          {/* Duyệt qua từng thành phần của mảng */}
           {auth.listSendRequestFriend.map((request) => (
             <div
               key={request?.id}
@@ -51,7 +53,7 @@ const SendRequireAddFriend = () => {
               <div className="flex space-x-2">
                 <button
                   className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
-                  onClick={() => handleRemoveRequest(request?.receiver?.id)}
+                  onClick={() => handleRequest(request?.receiver?.id)}
                 >
                   Cancel Request
                 </button>

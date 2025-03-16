@@ -13,11 +13,11 @@ import java.util.Date;
 public class JwtUtils {
     SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 
-    // Tạo Access Token (15 phút)
+    // Tạo Access Token (30 phút)
     public String generateAccessToken(Authentication auth){
         String jwt = Jwts.builder()
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 60 * 60 * 1000))
+                .setExpiration(new Date(new Date().getTime() + 30 * 60 * 1000))
                 .claim("email", auth.getName())
                 .claim("authorities", auth.getAuthorities())
                 .signWith(key)

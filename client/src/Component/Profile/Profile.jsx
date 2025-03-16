@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import PostsCard from '../HomeSection/PostsCard';
+import PostsCard from '../HomeSection/PostsCard.jsx';
 import backgroundImageDefault from '../../image/backgroundImageDefault.jpg'
 import { Avatar, Button } from '@mui/material';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
