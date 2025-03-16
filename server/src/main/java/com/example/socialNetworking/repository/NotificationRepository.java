@@ -1,6 +1,7 @@
 package com.example.socialNetworking.repository;
 
 import com.example.socialNetworking.model.Notification;
+import com.example.socialNetworking.model.User;
 import org.aspectj.apache.bcel.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Query("SELECT COUNT(n) FROM Notification n WHERE n.receiver.id = :receiverId AND n.isSeen = false")
     Long countUnreadNotifications(Long receiverId);
 
+
+    Notification findNotificationByIdPostsAndSender(long idPost, User sender);
 }

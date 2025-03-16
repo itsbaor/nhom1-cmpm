@@ -1,6 +1,7 @@
 package com.example.socialNetworking.service.Impl;
 
 import com.example.socialNetworking.model.Notification;
+import com.example.socialNetworking.model.User;
 import com.example.socialNetworking.repository.NotificationRepository;
 import com.example.socialNetworking.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,10 @@ public class NotificationServiceImpl implements NotificationService {
 
     public Long countUnreadNotifications(Long receiverId) {
         return notificationRepository.countUnreadNotifications(receiverId);
+    }
+
+    @Override
+    public Notification getNotification(Long postId, User user) {
+        return notificationRepository.findNotificationByIdPostsAndSender(postId, user);
     }
 }

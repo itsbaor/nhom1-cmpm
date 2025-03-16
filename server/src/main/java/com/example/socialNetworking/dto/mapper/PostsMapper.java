@@ -24,7 +24,6 @@ public interface PostsMapper {
     @Mapping(target = "bookmarked", expression = "java(posts.getBookmarkUser().stream()" +
             ".anyMatch(bookmarkUser -> bookmarkUser.getId().equals(req_user.getId())))")
     @Mapping(target = "comments", expression = "java(commentMapper.commentListToCommentDtoList(posts.getComments(), req_user))")
-    @Mapping(target = "shareUserId", expression = "java(posts.getShareUser().stream().map(User::getId).collect(java.util.stream.Collectors.toList()))")
     PostsDto postsToPostsDto(Posts posts, @Context User req_user,@Context CommentMapper commentMapper);
 
 }

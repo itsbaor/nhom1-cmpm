@@ -147,3 +147,13 @@ export const hiddenPosts = (postId) => async (dispatch) => {
     }
 }
 
+export const sharePost = (postRequest) => async (dispatch) => {
+    try {
+        const {data} = await api.post(`/api/posts/sharepost`,postRequest)
+        console.log("share post: ", data)
+        dispatch({type: POST_CREATE_SUCCESS, payload: data})
+    } catch (error) {
+        dispatch({type: POST_CREATE_FAILURE, payload: error.message})
+    }
+}
+

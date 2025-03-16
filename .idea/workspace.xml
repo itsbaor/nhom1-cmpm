@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ee62fd5-c81e-4055-982c-6a6feb41026b" name="Changes" comment="Backend: HiddenUser">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/repository/HiddenPostsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/HiddentPostService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/HiddentPostServiceIpml.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Component/Friends/RequestAddFriend.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Component/Friends/RequestAddFriend.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Component/Friends/SendRequireAddFriend.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Component/Friends/SendRequireAddFriend.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Component/HomeSection/HomeSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Component/HomeSection/HomeSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Component/Notification/Notification.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Component/Notification/Notification.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/Component/Profile/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/Component/Profile/Profile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/SocialNetworkingApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/SocialNetworkingApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/config/jwt/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/config/jwt/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/config/jwt/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/config/jwt/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/controller/LikeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/controller/LikeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/model/LikeComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/model/LikeComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/repository/LikeCommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/repository/LikeCommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/LikeCommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/LikeCommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/PostsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/PostsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/Impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/LikeCommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/LikeCommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/LikePostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/LikePostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/socialNetworking/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Thanhcona40&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/itsbaor/nhom1-cmpm.git&quot;,
+    &quot;accountId&quot;: &quot;8d9f6a38-75ec-43c7-84cf-d6205108358b&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2tTzqkzdQfEajOca49Jikzoi0iS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.SocialNetworkingApplication.executor": "Run",
+    "git-widget-placeholder": "Merging thanhlam",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/LAM DUC THANH/IdeaProjects/socialNetworking_Backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LAM DUC THANH\Documents\nhom1-cmpm\server\src\main\java\com\example\socialNetworking" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.socialNetworking.service.Impl" />
+      <recent name="com.example.socialNetworking.service" />
+      <recent name="com.example.socialNetworking.repository" />
+      <recent name="com.example.socialNetworking.model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="SocialNetworkingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="socialNetworking" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.socialNetworking.SocialNetworkingApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ee62fd5-c81e-4055-982c-6a6feb41026b" name="Changes" comment="" />
+      <created>1740391044549</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740391044549</updated>
+      <workItem from="1740391045670" duration="3528000" />
+      <workItem from="1740671443660" duration="6693000" />
+      <workItem from="1740705364949" duration="1098000" />
+      <workItem from="1740710968810" duration="4545000" />
+      <workItem from="1740729476505" duration="57000" />
+      <workItem from="1740970448281" duration="4854000" />
+      <workItem from="1741230927905" duration="1364000" />
+      <workItem from="1741315860778" duration="5325000" />
+      <workItem from="1741531557242" duration="1392000" />
+      <workItem from="1741575617743" duration="4667000" />
+      <workItem from="1741661426483" duration="21000" />
+      <workItem from="1741877589044" duration="1390000" />
+      <workItem from="1741881199950" duration="48000" />
+      <workItem from="1741881277282" duration="16000" />
+      <workItem from="1741883537084" duration="692000" />
+      <workItem from="1741916731732" duration="307000" />
+      <workItem from="1741921080373" duration="5444000" />
+      <workItem from="1742027958129" duration="615000" />
+      <workItem from="1742051988051" duration="8000" />
+      <workItem from="1742136463221" duration="3687000" />
+      <workItem from="1742142914593" duration="3105000" />
+    </task>
+    <task id="LOCAL-00001" summary="Backend: HiddenUser">
+      <option name="closed" value="true" />
+      <created>1741232190373</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741232190373</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".gitattributes" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Backend: HiddenUser" />
+    <option name="LAST_COMMIT_MESSAGE" value="Backend: HiddenUser" />
+  </component>
+</project>
