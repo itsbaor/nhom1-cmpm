@@ -33,9 +33,6 @@ public class Posts {
     @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany
-    private List<User> shareUser = new ArrayList<>();
-
-    @ManyToMany
-    private List<User> bookmarkUser = new ArrayList<>();
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+    private List<BookmarkPost> bookmarkPost = new ArrayList<>();
 }

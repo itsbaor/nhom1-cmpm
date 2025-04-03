@@ -2,9 +2,11 @@ package com.example.socialNetworking.service.Impl;
 
 
 import com.example.socialNetworking.exception.PostsException;
+import com.example.socialNetworking.model.BookmarkPost;
 import com.example.socialNetworking.model.HiddenUsers;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
+import com.example.socialNetworking.repository.BookmarkRepository;
 import com.example.socialNetworking.repository.HiddenUsersRepository;
 import com.example.socialNetworking.repository.PostsRepository;
 import com.example.socialNetworking.repository.UserRepository;
@@ -28,7 +30,7 @@ import java.util.List;
 public class PostsServiceImpl implements PostsService {
 
     private final PostsRepository postsRepository;
-    private final UserRepository userRepository;
+    private final BookmarkRepository bookmarkRepository;
     private final UserService userService;
     private final HiddenUsersRepository hiddenUsersRepository;
 
@@ -67,7 +69,7 @@ public class PostsServiceImpl implements PostsService {
     @Override
     public List<Posts> getUserPosts(Long userId) {
         User user = userService.findById(userId);
-        return postsRepository.findAllByShareUserContainsOrUser_IdOrderByCreatedAtDesc(user, userId);
+        return postsRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
     }
 
     @Transactional
@@ -99,15 +101,12 @@ public class PostsServiceImpl implements PostsService {
                 postsRequest.getPostId()).orElseThrow(() -> new PostsException("not found posts"));
 
         Posts newPosts = new Posts();
-        if(!findPost.getShareUser().contains(userReq)){
+        if(!findPost.getSharedPosts().stream().anyMatch(post -> post.getUser().getId().equals(userReq.getId()))){
             newPosts.setContent(postsRequest.getContent());
             newPosts.setUser(userReq);
             newPosts.setOriginalPost(findPost);
             newPosts.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
-
-            findPost.getShareUser().add(userReq);
         }
-        postsRepository.save(findPost);
 
         return postsRepository.save(newPosts);
     }
@@ -116,12 +115,35 @@ public class PostsServiceImpl implements PostsService {
     public Posts bookmarkPost(User userReq, Long postId) {
         Posts findPost = postsRepository.findById(
                 postId).orElseThrow(() -> new PostsException("not found posts"));
+        BookmarkPost bookmarkPost = bookmarkRepository.findBookmarkPostByUserIdAndPostsId(userReq.getId(), postId);
 
-        if(findPost.getBookmarkUser().contains(userReq)){
-            findPost.getBookmarkUser().remove(userReq);
+        if(bookmarkPost != null){
+            // Xóa khỏi database
+            bookmarkRepository.delete(bookmarkPost);
         }else {
-            findPost.getBookmarkUser().add(userReq);
+            BookmarkPost newBookmark = new BookmarkPost();
+            newBookmark.setPosts(findPost);
+            newBookmark.setUser(userReq);
+            newBookmark.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+
+            bookmarkRepository.save(newBookmark);
         }
-        return postsRepository.save(findPost);
+
+        // Fetch lại findPost để lấy danh sách bookmarkPost mới nhất
+        return postsRepository.findById(postId).orElseThrow();
+    }
+
+    @Override
+    public List<BookmarkPost> getAllBookmarkPost(User userReq) {
+        return bookmarkRepository.findBookmarkPostByUserIdOrderByCreatedAtDesc(userReq.getId());
+    }
+
+    @Override
+    public BookmarkPost deleteBookmarkpost(Long bookmarkId) {
+        BookmarkPost findBookmark = bookmarkRepository.findById(bookmarkId).orElseThrow(() -> new PostsException("not found post"));
+        postsRepository.findById(
+                findBookmark.getPosts().getId()).orElseThrow(() -> new PostsException("not found posts"));
+        bookmarkRepository.deleteById(bookmarkId);
+        return findBookmark;
     }
 }

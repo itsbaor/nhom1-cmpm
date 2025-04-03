@@ -1,5 +1,6 @@
 package com.example.socialNetworking.service;
 
+import com.example.socialNetworking.model.BookmarkPost;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
 import com.example.socialNetworking.request.PostsRequest;
@@ -23,4 +24,8 @@ public interface PostsService {
     Posts sharePost(User userReq, PostsRequest postsRequest);
 
     Posts bookmarkPost(User userReq, Long postId);
+
+    List<BookmarkPost> getAllBookmarkPost(User userReq);
+
+    BookmarkPost deleteBookmarkpost(Long bookmarkId);
 }

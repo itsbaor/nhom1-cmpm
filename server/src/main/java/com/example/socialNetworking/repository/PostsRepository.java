@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
-    List<Posts> findAllByShareUserContainsOrUser_IdOrderByCreatedAtDesc(User shareUser, Long userId);
+    List<Posts> findAllByUserIdOrderByCreatedAtDesc(Long userId);
 
     @Query("select p from Posts p " +
             "WHERE p.createdAt < :createdAt " +
