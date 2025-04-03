@@ -1,5 +1,5 @@
 import { GET_ALL_POSTS_FAILURE } from "../Posts/ActionType";
-import { ACCEPT_REQUEST_ADD_FRIEND_FAILURE, ACCEPT_REQUEST_ADD_FRIEND_SUCCESS, CLEAR_AUTH_FAILURE, CLEAR_AUTH_SUCCESS, GET_ALL_LIST_FRIEND_FAILURE, GET_ALL_LIST_FRIEND_SUCCESS, GET_ALL_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_SEND_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_SEND_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_USER_LIST_FAILURE, GET_ALL_USER_LIST_SUCCESS, GET_PROFILE_USER_ID_FAILURE, GET_PROFILE_USER_ID_SUCCESS, GET_PROFILE_USER_JWT_FAILURE, GET_PROFILE_USER_JWT_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, LOGOUT_USER, LOGOUT_USER_SUCCESS, REFUSE_REQUEST_ADD_FRIEND_FAILURE, REFUSE_REQUEST_ADD_FRIEND_SUCCESS, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REQUEST_ADD_FRIEND_FAILURE, REQUEST_ADD_FRIEND_SUCCESS, UNFRIEND_FAILURE, UNFRIEND_SUCCESS, UPDATE_STATUS_USER_FAILURE, UPDATE_STATUS_USER_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS } from "./ActionType";
+import { ACCEPT_REQUEST_ADD_FRIEND_FAILURE, ACCEPT_REQUEST_ADD_FRIEND_SUCCESS, CLEAR_AUTH_FAILURE, CLEAR_AUTH_SUCCESS, GET_ALL_LIST_FRIEND_FAILURE, GET_ALL_LIST_FRIEND_SUCCESS, GET_ALL_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_SEND_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_SEND_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_USER_LIST_FAILURE, GET_ALL_USER_LIST_SUCCESS, GET_PROFILE_USER_ID_FAILURE, GET_PROFILE_USER_ID_SUCCESS, GET_PROFILE_USER_JWT_FAILURE, GET_PROFILE_USER_JWT_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, LOGOUT_USER, LOGOUT_USER_SUCCESS, REFUSE_REQUEST_ADD_FRIEND_FAILURE, REFUSE_REQUEST_ADD_FRIEND_SUCCESS, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REQUEST_ADD_FRIEND_FAILURE, REQUEST_ADD_FRIEND_SUCCESS, UNFRIEND_FAILURE, UNFRIEND_SUCCESS, UPDATE_STATUS_LIST_USER_SUCCESS, UPDATE_STATUS_USER_FAILURE, UPDATE_STATUS_USER_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS } from "./ActionType";
 
 const initialState = {
     user:null,
@@ -46,15 +46,21 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: null,
-                listUser: action.payload, // Ghi đè toàn bộ danh sách
+                listFriend: action.payload, // Ghi đè toàn bộ danh sách
+            };
+        case UPDATE_STATUS_LIST_USER_SUCCESS:
+            return { ...state, error: null, listFriend: action.payload  // Cập nhật trạng thái bạn bè user online trước đó
             };
         case UPDATE_STATUS_USER_SUCCESS:
+            const updatedUser = action.payload;
             return {
                 ...state,
                 error: null,
-                listUser: state.listUser.map((user) =>
-                    user.id === action.payload.id ? action.payload : user
-                ), // Cập nhật trạng thái user
+                listFriend: state.listFriend.map(user => 
+                user.id === updatedUser.id 
+                    ? { ...user, status: updatedUser.status } 
+                    : user
+                ), // Cập nhật trạng thái bạn bè user
             };
         case REQUEST_ADD_FRIEND_SUCCESS:
             return { ...state, error:null, requestFriend: action.payload}

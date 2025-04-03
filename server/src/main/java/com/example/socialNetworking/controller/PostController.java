@@ -1,11 +1,15 @@
 package com.example.socialNetworking.controller;
 
 import com.example.socialNetworking.config.jwt.JwtUtils;
+import com.example.socialNetworking.dto.BookmarkDto;
 import com.example.socialNetworking.dto.PostsDto;
+import com.example.socialNetworking.dto.mapper.BookmarkMapper;
 import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
+import com.example.socialNetworking.model.BookmarkPost;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
+import com.example.socialNetworking.request.PostsRequest;
 import com.example.socialNetworking.service.PostsService;
 import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +66,7 @@ public class PostController {
 
     @GetMapping("/{postsId}")
     public ResponseEntity<PostsDto> getPostsByPostsId(@RequestHeader("Authorization") String jwt,
-                                                      @PathVariable Long postsId){
+                                                      @PathVariable("postsId") Long postsId){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
@@ -75,7 +79,7 @@ public class PostController {
 
     @GetMapping("/user/{postsId}")
     public ResponseEntity<List<PostsDto>> getUserPosts(@RequestHeader("Authorization") String jwt,
-                                                       @PathVariable Long postsId){
+                                                       @PathVariable("postsId") Long postsId){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
@@ -135,5 +139,31 @@ public class PostController {
         return new ResponseEntity<>(postsDto, HttpStatus.OK);
     }
 
+    @GetMapping("/bookmark")
+    public ResponseEntity<List<BookmarkDto>> getBookmarkPost(
+            @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
 
+        List<BookmarkPost> posts = postsService.getAllBookmarkPost(userReq);
+        List<BookmarkDto> postsDtos = new ArrayList<>();
+
+        for(BookmarkPost post : posts){
+            postsDtos.add(BookmarkMapper.INSTANCE.bookmarkToBookmarkDto(post));
+        }
+
+        return new ResponseEntity<>(postsDtos, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/bookmark/{bookmarkId}")
+    public ResponseEntity<BookmarkDto> deleteBookmarkPost(
+            @RequestHeader("Authorization") String jwt, @PathVariable Long bookmarkId){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        BookmarkPost posts = postsService.deleteBookmarkpost(bookmarkId);
+        BookmarkDto postsDtos = BookmarkMapper.INSTANCE.bookmarkToBookmarkDto(posts);
+
+        return new ResponseEntity<>(postsDtos, HttpStatus.OK);
+    }
 }

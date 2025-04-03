@@ -8,7 +8,9 @@ import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +65,17 @@ public class UserServiceImpl implements UserService {
         }
         return userRepository.save(user);
     }
+
+    @Override
+    public List<User> getUsersByIds(Set<Long> onlineUsers) {
+        List<User> users = new ArrayList<>();
+        for(Long id : onlineUsers){
+            User user = findById(id);
+            users.add(user);
+        }
+        return users;
+    }
+
 
     @Override
     public User saveUser(User user) {

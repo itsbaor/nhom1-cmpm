@@ -1,5 +1,5 @@
 import { api } from "../../config/api"
-import { COMMENT_POST_FAILURE, COMMENT_POST_SUCCESS, DELETE_POSTS_FAILURE, DELETE_POSTS_SUCCESS, GET_ALL_POSTS_FAILURE, GET_ALL_POSTS_SUCCESS, GET_LIKE_POST_FAILURE, GET_LIKE_POST_SUCCESS, GET_POSTS_BY_ID_FAILURE, GET_POSTS_BY_ID_SUCCESS, GET_USER_POSTS_FAILURE, GET_USER_POSTS_SUCCESS, HIDDEN_POST_FAILURE, HIDDEN_POST_SUCCESS, HIDDEN_USER_FAILURE, HIDDEN_USER_SUCCESS, LIKE_COMMENT_FAILURE, LIKE_COMMENT_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_SUCCESS, POST_CREATE_FAILURE, POST_CREATE_SUCCESS, REPLIES_COMMENT_FAILURE, REPLIES_COMMENT_SUCCESS, UPDATE_POSTS_FAILURE, UPDATE_POSTS_SUCCESS } from "./ActionType"
+import { BOOKMARK_POST_FAILURE, BOOKMARK_POST_SUCCESS, COMMENT_POST_FAILURE, COMMENT_POST_SUCCESS, DELETE_BOOKMARK_POST_FAILURE, DELETE_BOOKMARK_POST_SUCCESS, DELETE_POSTS_FAILURE, DELETE_POSTS_SUCCESS, GET_ALL_BOOKMARK_POST_FAILURE, GET_ALL_BOOKMARK_POST_SUCCESS, GET_ALL_POSTS_FAILURE, GET_ALL_POSTS_SUCCESS, GET_LIKE_POST_FAILURE, GET_LIKE_POST_SUCCESS, GET_POSTS_BY_ID_FAILURE, GET_POSTS_BY_ID_SUCCESS, GET_USER_POSTS_FAILURE, GET_USER_POSTS_SUCCESS, HIDDEN_POST_FAILURE, HIDDEN_POST_SUCCESS, HIDDEN_USER_FAILURE, HIDDEN_USER_SUCCESS, LIKE_COMMENT_FAILURE, LIKE_COMMENT_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_SUCCESS, POST_CREATE_FAILURE, POST_CREATE_SUCCESS, REPLIES_COMMENT_FAILURE, REPLIES_COMMENT_SUCCESS, UPDATE_POSTS_FAILURE, UPDATE_POSTS_SUCCESS } from "./ActionType"
 
 export const createPosts = (post) => async (dispatch) => {
     try {
@@ -154,6 +154,36 @@ export const sharePost = (postRequest) => async (dispatch) => {
         dispatch({type: POST_CREATE_SUCCESS, payload: data})
     } catch (error) {
         dispatch({type: POST_CREATE_FAILURE, payload: error.message})
+    }
+}
+
+export const bookmarkPost = (postId) => async (dispatch) => {
+    try {
+        const {data} = await api.post(`/api/posts/${postId}/bookmark`)
+        console.log("book post: ", data)
+        dispatch({type: BOOKMARK_POST_SUCCESS, payload: data})
+    } catch (error) {
+        dispatch({type: BOOKMARK_POST_FAILURE, payload: error.message})
+    }
+}
+
+export const getBookmarkUser = () => async (dispatch) => {
+    try {
+        const {data} = await api.get(`/api/posts/bookmark`)
+        console.log("bookmark all post: ", data)
+        dispatch({type: GET_ALL_BOOKMARK_POST_SUCCESS, payload: data})
+    } catch (error) {
+        dispatch({type: GET_ALL_BOOKMARK_POST_FAILURE, payload: error.message})
+    }
+}
+
+export const deleteBookmark = (bookmarkId) => async (dispatch) => {
+    try {
+        const {data} = await api.delete(`/api/posts/bookmark/${bookmarkId}`)
+        console.log("bookmark all post: ", data)
+        dispatch({type: DELETE_BOOKMARK_POST_SUCCESS, payload: data})
+    } catch (error) {
+        dispatch({type: DELETE_BOOKMARK_POST_FAILURE, payload: error.message})
     }
 }
 

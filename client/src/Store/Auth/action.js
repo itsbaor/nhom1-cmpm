@@ -1,6 +1,6 @@
 import axios from "axios"
 import { api, API_BASE_URL } from "../../config/api"
-import { ACCEPT_REQUEST_ADD_FRIEND_FAILURE, ACCEPT_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_LIST_FRIEND_FAILURE, GET_ALL_LIST_FRIEND_SUCCESS, GET_ALL_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_SEND_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_SEND_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_USER_LIST_FAILURE, GET_ALL_USER_LIST_SUCCESS, GET_PROFILE_USER_ID_FAILURE, GET_PROFILE_USER_ID_SUCCESS, GET_PROFILE_USER_JWT_FAILURE, GET_PROFILE_USER_JWT_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, LOGOUT_USER, REFUSE_REQUEST_ADD_FRIEND_FAILURE, REFUSE_REQUEST_ADD_FRIEND_SUCCESS, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REQUEST_ADD_FRIEND_FAILURE, REQUEST_ADD_FRIEND_SUCCESS, UNFRIEND_FAILURE, UNFRIEND_SUCCESS, UPDATE_STATUS_USER_FAILURE, UPDATE_STATUS_USER_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS } from "./ActionType"
+import { ACCEPT_REQUEST_ADD_FRIEND_FAILURE, ACCEPT_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_LIST_FRIEND_FAILURE, GET_ALL_LIST_FRIEND_SUCCESS, GET_ALL_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_SEND_REQUEST_ADD_FRIEND_FAILURE, GET_ALL_SEND_REQUEST_ADD_FRIEND_SUCCESS, GET_ALL_USER_LIST_FAILURE, GET_ALL_USER_LIST_SUCCESS, GET_PROFILE_USER_ID_FAILURE, GET_PROFILE_USER_ID_SUCCESS, GET_PROFILE_USER_JWT_FAILURE, GET_PROFILE_USER_JWT_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, LOGOUT_USER, REFUSE_REQUEST_ADD_FRIEND_FAILURE, REFUSE_REQUEST_ADD_FRIEND_SUCCESS, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REQUEST_ADD_FRIEND_FAILURE, REQUEST_ADD_FRIEND_SUCCESS, UNFRIEND_FAILURE, UNFRIEND_SUCCESS, UPDATE_STATUS_LIST_USER_FAILURE, UPDATE_STATUS_LIST_USER_SUCCESS, UPDATE_STATUS_USER_FAILURE, UPDATE_STATUS_USER_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS } from "./ActionType"
 
 export const registerUser = (registerData) => async (dispatch) => {
     try {
@@ -28,8 +28,7 @@ export const loginUser = (loginData) => async (dispatch) => {
 }
 
 export const logOut = () => async (dispatch) => {
-    try {
-        await api.get(`/api/users/logout`, { withCredentials: true });
+    try{
         console.log("log out")
         localStorage.removeItem("token");
         dispatch({ type: LOGOUT_USER, payload: null });
@@ -49,9 +48,9 @@ export const getProfileByJwt = () => async (dispatch) => {
     }
 }
 
-export const getUserList = () => async (dispatch) => {
+export const getUserListFriend = () => async (dispatch) => {
     try {
-        const {data} = await api.get("/api/users/all")
+        const {data} = await api.get("/api/friend/all")
         console.log("user list: ", data)
         dispatch({type: GET_ALL_USER_LIST_SUCCESS, payload: data})
     } catch(error) {
@@ -88,6 +87,15 @@ export const updateUserStatus = (user) => async (dispatch) => {
         dispatch({type: UPDATE_STATUS_USER_FAILURE, payload: error.message})
     }
 } 
+
+export const updateUserListStatus = (listUser) => async (dispatch) => {
+    try {
+        dispatch({type: UPDATE_STATUS_LIST_USER_SUCCESS, payload: listUser})
+    } catch (error) {
+        dispatch({type: UPDATE_STATUS_LIST_USER_FAILURE, payload: error.message})
+    }
+} 
+
 
 export const requestAddFriend = (userId) => async (dispatch) => {
     try {
@@ -147,13 +155,3 @@ export const requestRemoveFriend = (userId) => async (dispatch) => {
         dispatch({type: UNFRIEND_FAILURE, payload: error.message})
     }
 } 
-
-export const getListFriend = () => async (dispatch) => {
-    try {
-        const {data} = await api.get(`/api/friend/all`)
-        console.log("list friend: ", data)
-        dispatch({type: GET_ALL_LIST_FRIEND_SUCCESS, payload: data})
-    } catch (error) {
-        dispatch({type: GET_ALL_LIST_FRIEND_FAILURE, payload: error.message})
-    }
-}
