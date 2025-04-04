@@ -46,6 +46,7 @@ const RequestAddFriend = () => {
   useEffect(() => {
     dispatch(getAllRequestAddFriend());
   }, [auth?.requestFriend]);
+  
   return (
     <div className="bg-white shadow-md rounded-md p-6">
       <ToastContainer />

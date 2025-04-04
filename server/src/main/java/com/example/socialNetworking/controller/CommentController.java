@@ -56,10 +56,9 @@ public class CommentController {
         Posts posts = postsService.findById(reqPosts.getPostId());
 
         if(!posts.getUser().equals(user)){
-            Notification findNotification = notificationService.getNotification(posts.getId(), user);
-            Duration duration = Duration.between(findNotification.getTimestamp(), LocalDateTime.now());
+//            Notification findNotification = notificationService.getNotification(posts.getId(), user);
+//            Duration duration = Duration.between(findNotification.getTimestamp(), LocalDateTime.now());
 
-            if(duration.getSeconds() > 300 ) {
                 Notification notification = new Notification();
                 notification.setIdPosts(posts.getId());
                 notification.setSender(user);
@@ -74,8 +73,6 @@ public class CommentController {
                 //Gửi real-time thong báo
                 messagingTemplate.convertAndSendToUser(String.valueOf(posts.getUser().getId()),"/queue/notification/", notificationDto);
             }
-        }
-
         return new ResponseEntity<>(commentDto, HttpStatus.CREATED);
     }
 

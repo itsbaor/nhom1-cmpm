@@ -95,7 +95,7 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<PostsDto> deletePost(
-            @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
+            @PathVariable("postId") Long postId, @RequestHeader("Authorization") String jwt){
         String email = jwtUtils.getEmailFromToken(jwt);
         User userReq = userService.getUserByEmail(email);
         Posts posts = postsService.findById(postId);
@@ -129,7 +129,7 @@ public class PostController {
 
     @PostMapping("/{postId}/bookmark")
     public ResponseEntity<PostsDto> bookmarkPost(
-            @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
+            @PathVariable("postId") Long postId, @RequestHeader("Authorization") String jwt){
         String email = jwtUtils.getEmailFromToken(jwt);
         User userReq = userService.getUserByEmail(email);
 
@@ -157,7 +157,7 @@ public class PostController {
 
     @DeleteMapping("/bookmark/{bookmarkId}")
     public ResponseEntity<BookmarkDto> deleteBookmarkPost(
-            @RequestHeader("Authorization") String jwt, @PathVariable Long bookmarkId){
+            @RequestHeader("Authorization") String jwt, @PathVariable("bookmarkId") Long bookmarkId){
         String email = jwtUtils.getEmailFromToken(jwt);
         User userReq = userService.getUserByEmail(email);
 

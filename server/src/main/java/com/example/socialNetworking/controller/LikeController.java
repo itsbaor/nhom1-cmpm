@@ -98,8 +98,8 @@ public class LikeController {
         return new ResponseEntity<>(postsDto, HttpStatus.OK);
     }
     @GetMapping("/comment/{postId}/{commentId}")
-    public ResponseEntity<PostsDto> likeComment(@PathVariable Long postId,
-                                                @PathVariable Long commentId,
+    public ResponseEntity<PostsDto> likeComment(@PathVariable("postId") Long postId,
+                                                @PathVariable("commentId") Long commentId,
                                                 @RequestHeader("Authorization") String jwt){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
@@ -111,8 +111,8 @@ public class LikeController {
         return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
     }
     @GetMapping("removelike/comment/{postId}/{commentId}")
-    public ResponseEntity<PostsDto> removerLikeComment(@PathVariable Long postId,
-                                                       @PathVariable Long commentId,
+    public ResponseEntity<PostsDto> removerLikeComment(@PathVariable("postId") Long postId,
+                                                       @PathVariable("commentId") Long commentId,
                                                        @RequestHeader("Authorization") String jwt){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
