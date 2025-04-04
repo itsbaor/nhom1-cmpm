@@ -113,7 +113,7 @@ const PostsCard = ({ item }) => {
             <ToastContainer />
             <Avatar
                 onClick={handleProfile}
-                className="mt-3 ml-3 border-2 border-green-400 shadow-sm"
+                className="mt-3 ml-3 border-2 border-green-400 shadow-sm cursor-pointer"
                 src={item?.user?.image}
             />
             <div className="flex flex-col pl-4 pr-8 w-full">
