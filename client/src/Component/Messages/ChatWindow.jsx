@@ -35,13 +35,13 @@ const ChatWindow = () => {
                 {messages.map((msg, index) => (
                     <div
                         key={index}
-                        className={`flex ${msg?.receiver?.id === activeUser?.id ? 'justify-start' : 'justify-end'
+                        className={`flex ${msg?.receiver?.id === activeUser?.id ? 'justify-end' : 'justify-start'
                             } mb-2`}
                     >
                         <div
                             className={`${msg?.receiver?.id === activeUser?.id
-                                    ? 'bg-gray-200 text-black'
-                                    : 'bg-blue-500 text-white'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-gray-200 text-black'
                                 } p-2 rounded-lg max-w-xs`}
                         >
                             {msg.content}

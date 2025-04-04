@@ -8,7 +8,7 @@ import { Avatar } from '@mui/material';
 import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePosts, hiddenPosts, hiddenUser, likePosts, removelikePosts } from '../../Store/Posts/Action';
+import { bookmarkPost, deletePosts, hiddenPosts, hiddenUser, likePosts, removelikePosts } from '../../Store/Posts/Action';
 import CommentModal from './CommentModal';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import UpdatePosts from './UpdatePosts';
@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SharePostModal from './SharePostModal';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const PostsCard = ({ item }) => {
     //Mở modal comment
@@ -71,6 +72,10 @@ const PostsCard = ({ item }) => {
 
     const handleRemoveLikePost = () => {
         dispatch(removelikePosts(item?.id))
+    }
+
+    const handleBookmarkPost = () => {
+        dispatch(bookmarkPost(item?.id))
     }
 
     const handleDeletePost = () => {
@@ -205,7 +210,23 @@ const PostsCard = ({ item }) => {
                         </div>
                         
                     </div>
-                    <BookmarkBorderOutlinedIcon className="text-gray-600 hover:text-yellow-500 cursor-pointer" />
+                    {item?.bookmarked ? (
+                            <div
+                                onClick={handleBookmarkPost} 
+                               className="text-gray-600 hover:text-yellow-500 cursor-pointer"
+                            >
+                                <span>{item?.totalBookmark}</span>
+                                <BookmarkIcon />
+                            </div>
+                        ) : (
+                            <div
+                                className="text-gray-600 hover:text-yellow-500 cursor-pointer"
+                                onClick={handleBookmarkPost}
+                            >
+                                <span>{item?.totalBookmark}</span>
+                                <BookmarkBorderOutlinedIcon />
+                            </div>
+                        )}
                 </div>
             </div>
             <CommentModal
