@@ -3,8 +3,10 @@ package com.example.socialNetworking.controller;
 import com.example.socialNetworking.config.jwt.JwtUtils;
 import com.example.socialNetworking.dto.FriendDto;
 import com.example.socialNetworking.dto.Friend_RequestDto;
+import com.example.socialNetworking.dto.UserDto;
 import com.example.socialNetworking.dto.mapper.FriendMapper;
 import com.example.socialNetworking.dto.mapper.Friend_RequestMapper;
+import com.example.socialNetworking.dto.mapper.UserMapper;
 import com.example.socialNetworking.model.Friend;
 import com.example.socialNetworking.model.Friend_Request;
 import com.example.socialNetworking.model.User;
@@ -32,18 +34,19 @@ public class FriendController {
     private final JwtUtils jwtUtils;
 
     @GetMapping("/all")
-    public ResponseEntity<List<FriendDto>> getAllFriends(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<List<UserDto>> getAllFriends(@RequestHeader("Authorization") String jwt) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
         List<Friend> listFriend = friendService.getAllFriend(user.getId());
-        List<FriendDto> friendDtos = new ArrayList<>();
+        List<User> userList = listFriend.stream().map(Friend::getFriend).toList();
+        List<UserDto> userDtos = new ArrayList<>();
 
-        for(Friend friend : listFriend) {
-            FriendDto friendDto = FriendMapper.INSTANCE.friendToFriendDto(friend);
-            friendDtos.add(friendDto);
+        for(User user1 : userList) {
+            UserDto userDto = UserMapper.Instance.userToUserDto(user1);
+            userDtos.add(userDto);
         }
-        return new ResponseEntity<>(friendDtos, HttpStatus.OK);
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
     @GetMapping("/require/{userId}")
@@ -84,7 +87,7 @@ public class FriendController {
 
     @GetMapping("/relation/{id}")
     public ResponseEntity<Status_Friend> getRelationshipFriend(
-            @RequestHeader("Authorization") String jwt, @PathVariable Long id) {
+            @RequestHeader("Authorization") String jwt, @PathVariable("id") Long id) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
         User findUser = userService.findById(id);

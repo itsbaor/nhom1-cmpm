@@ -29,7 +29,7 @@ public class NotificationController {
     private final JwtUtils jwtUtils;
 
     @GetMapping("/listNotify/{userId}")
-    public ResponseEntity<List<NotificationDto>> getAllNotification(@PathVariable Long userId) {
+    public ResponseEntity<List<NotificationDto>> getAllNotification(@PathVariable("userId") Long userId) {
         List<Notification> list = notificationService.getNotifications(userId);
         List <NotificationDto> dtos = new ArrayList<>();
         for(Notification notification : list){

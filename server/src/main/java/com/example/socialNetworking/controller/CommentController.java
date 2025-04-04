@@ -25,6 +25,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -54,19 +56,24 @@ public class CommentController {
         Posts posts = postsService.findById(reqPosts.getPostId());
 
         if(!posts.getUser().equals(user)){
-            Notification notification = new Notification();
-            notification.setIdPosts(posts.getId());
-            notification.setSender(user);
-            notification.setReceiver(posts.getUser());
-            notification.setTitle(user.getFullName() + " đã bình luận về bài viết của bạn");
-            notification.setTimestamp(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
-            notification.setSeen(false);
+            Notification findNotification = notificationService.getNotification(posts.getId(), user);
+            Duration duration = Duration.between(findNotification.getTimestamp(), LocalDateTime.now());
 
-            Notification save = notificationService.addNotification(notification);
-            NotificationDto notificationDto = NotificationMapper.INSTANCE.notificationToNotificationDTO(save);
+            if(duration.getSeconds() > 300 ) {
+                Notification notification = new Notification();
+                notification.setIdPosts(posts.getId());
+                notification.setSender(user);
+                notification.setReceiver(posts.getUser());
+                notification.setTitle(user.getFullName() + " đã bình luận về bài viết của bạn");
+                notification.setTimestamp(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                notification.setSeen(false);
 
-            //Gửi real-time thong báo
-            messagingTemplate.convertAndSendToUser(String.valueOf(posts.getUser().getId()),"/queue/notification/", notificationDto);
+                Notification save = notificationService.addNotification(notification);
+                NotificationDto notificationDto = NotificationMapper.INSTANCE.notificationToNotificationDTO(save);
+
+                //Gửi real-time thong báo
+                messagingTemplate.convertAndSendToUser(String.valueOf(posts.getUser().getId()),"/queue/notification/", notificationDto);
+            }
         }
 
         return new ResponseEntity<>(commentDto, HttpStatus.CREATED);

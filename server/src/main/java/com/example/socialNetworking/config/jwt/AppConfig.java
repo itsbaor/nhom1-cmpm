@@ -25,6 +25,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class AppConfig {
+
     private final CustomUserDetailsService customUserDetailsService;
 
     @Bean

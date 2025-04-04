@@ -9,6 +9,7 @@ import { uploadToCloudinary } from '../../Utils/uploadToCloudinary';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPosts, getAllPosts } from '../../Store/Posts/Action';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import SharePostsCard from './SharePostsCard';
 
 const validateSchema = Yup.object().shape({
     content: Yup.string().required("Text is required")
@@ -130,7 +131,11 @@ const HomeSection = () => {
                 loader={<h4>Loading...</h4>}
                 >
                     {post?.posts?.map((item) => (
-                        <PostsCard key={item.id} item={item} />
+                         item.originalPost === null ? (
+                            <PostsCard key={item.id} item={item} />
+                          ) : (
+                            <SharePostsCard key={item.id} item={item} />
+                          )
                     ))}
                 </InfiniteScroll> 
             </section>

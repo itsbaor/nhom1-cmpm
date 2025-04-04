@@ -4,6 +4,7 @@ import com.example.socialNetworking.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserService {
     User getUserByEmail(String email);
@@ -17,4 +18,6 @@ public interface UserService {
     List<User> findListUserUnlessOwn(String email);
 
     User updateStatusUser(Long id);
+
+    List<User> getUsersByIds(Set<Long> onlineUsers);
 }

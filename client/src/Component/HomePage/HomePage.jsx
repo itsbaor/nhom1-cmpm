@@ -11,7 +11,7 @@ import Notification from '../Notification/Notification';
 import Friend from '../Friends/Friend';
 import { useDispatch, useSelector } from 'react-redux';
 import { useChat } from '../Messages/ChatContext';
-import { getProfileByJwt, updateUserStatus } from '../../Store/Auth/action';
+import { getProfileByJwt, updateUserListStatus, updateUserStatus } from '../../Store/Auth/action';
 import { initializeWebSocket } from '../../config/websocket';
 
 const HomePage = () => {
@@ -35,25 +35,30 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-      const onMessageReceived = (msg) => {
-          const message = JSON.parse(msg.body)
-          addMessageReceiver(message)
-      }
-      const onUserOnlineStatus = (req) => {
-          const userStatus = JSON.parse(req.body)
-          dispatch(updateUserStatus(userStatus))
-      }
-      const onNotification = (noti) => {
-          const notice = JSON.parse(noti.body)
-          addNotification(notice)
-      }
-      initializeWebSocket(
-          [
-          { channel: `/user/${auth?.user?.id}/queue/messages`, callback: onMessageReceived },
-          { channel: `/topic/public`, callback: onUserOnlineStatus },
-          { channel: `/user/${auth?.user?.id}/queue/notification/`, callback: onNotification}
-      ],auth?.user)
-  },[auth?.user])
+    const onMessageReceived = (msg) => {
+        const message = JSON.parse(msg.body)
+        addMessageReceiver(message)
+    }
+    const onUserOnlineStatus = (req) => {
+        const userStatus = JSON.parse(req.body)
+        dispatch(updateUserStatus(userStatus))
+    }
+    const onNotification = (noti) => {
+        const notice = JSON.parse(noti.body)
+        addNotification(notice)
+    }
+    const onInitialOnlineUsers = (listUser) => {
+      const list = JSON.parse(listUser.body)
+      dispatch(updateUserListStatus(list))
+    }
+    initializeWebSocket(
+        [
+        { channel: `/user/${auth?.user?.id}/queue/messages`, callback: onMessageReceived },
+        { channel: `/user/${auth?.user?.id}/queue/status`, callback: onUserOnlineStatus },
+        { channel: `/user/${auth?.user?.id}/queue/notification/`, callback: onNotification},
+        { channel: `/user/${auth?.user?.id}/queue/onlineUsers`, callback: onInitialOnlineUsers } // Nhận danh sách online
+    ],auth?.user)
+},[auth?.user])
 
   useEffect(() => {
       if (auth?.jwt) {

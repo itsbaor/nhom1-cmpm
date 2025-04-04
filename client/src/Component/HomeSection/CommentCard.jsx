@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
 import { likeComment,  removelikeComment, repliesComment } from '../../Store/Posts/Action';
-import { getListFriend } from '../../Store/Auth/action';
+import { getUserListFriend } from '../../Store/Auth/action';
 
 const CommentCard = ({comment,postId}) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
@@ -65,7 +65,7 @@ const CommentCard = ({comment,postId}) => {
 
     useEffect(() => {
         if(typeof replyContent === "string" && replyContent?.endsWith("@")){
-            dispatch(getListFriend())
+            dispatch(getUserListFriend())
             setShowFriendList(true)
         }else{
             setShowFriendList(false)

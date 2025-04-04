@@ -1,12 +1,15 @@
 package com.example.socialNetworking.controller;
 
 import com.example.socialNetworking.config.jwt.JwtUtils;
+import com.example.socialNetworking.dto.BookmarkDto;
 import com.example.socialNetworking.dto.PostsDto;
+import com.example.socialNetworking.dto.mapper.BookmarkMapper;
 import com.example.socialNetworking.dto.mapper.CommentMapper;
 import com.example.socialNetworking.dto.mapper.PostsMapper;
+import com.example.socialNetworking.model.BookmarkPost;
 import com.example.socialNetworking.model.Posts;
 import com.example.socialNetworking.model.User;
-import com.example.socialNetworking.service.HiddentPostService;
+import com.example.socialNetworking.request.PostsRequest;
 import com.example.socialNetworking.service.PostsService;
 import com.example.socialNetworking.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,50 +26,30 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
 public class PostController {
-//    @Autowired
-//    private SavePostService savePostService;
-//
-//    //Lưu bài viết vào bookmark
-//    @PostMapping("/{postId}/bookmark/userId")
-////    @PathVariable biến đường dẫn
-//    public ResponseEntity<?> bookmarkPost(@PathVariable Long postId, @PathVariable Long userId) {
-//        savePostService.bookmarkPost(postId, userId);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    //Xóa bài viết khỏi danh sach bookmark
-//    @DeleteMapping("/{postId}/bookmark/{userId}")
-//    public ResponseEntity<?> unbookmarkPost(@PathVariable Long postId, @PathVariable Long userId) {
-//        savePostService.unbookmarkPost(postId, userId);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    //lấy danh sách người dùng đã lưu
-//    @GetMapping("/{postId}/bookmark-users")
-//    public ResponseEntity<List<User>> getBookmarkUsers(@PathVariable Long postId) {
-//        List<User> bookmarkUsers = savePostService.getBookmarkUsers(postId);
-//        return ResponseEntity.ok(bookmarkUsers);}
-
     private final PostsService postsService;
     private final UserService userService;
     private final JwtUtils jwtUtils;
-    private final HiddentPostService hiddentPostService;
 
-@PostMapping("/create")
-public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") String jwt,
-                                            @RequestBody Posts posts){
-    String email = jwtUtils.getEmailFromToken(jwt);
-    User user = userService.getUserByEmail(email);
+    @PostMapping("/create")
+    public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") String jwt,
+                                                @RequestBody Posts posts){
+        try {
+            String email = jwtUtils.getEmailFromToken(jwt);
+            User user = userService.getUserByEmail(email);
 
-    Posts createPost =  postsService.createPosts(posts, user);
-    PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(createPost, user, CommentMapper.INSTANCE);
-    return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
-}
+            Posts createPost =  postsService.createPosts(posts, user);
+            PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(createPost, user, CommentMapper.INSTANCE);
+            return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<PostsDto>> getAllPosts(
             @RequestHeader("Authorization") String jwt,
-            @RequestParam(required = false) LocalDateTime lastCreatedAt,
+            @RequestParam(name = "lastCreatedAt", required = false) LocalDateTime lastCreatedAt,
             @RequestParam("size") int size){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
@@ -83,7 +66,7 @@ public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") Stri
 
     @GetMapping("/{postsId}")
     public ResponseEntity<PostsDto> getPostsByPostsId(@RequestHeader("Authorization") String jwt,
-                                                      @PathVariable Long postsId){
+                                                      @PathVariable("postsId") Long postsId){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
@@ -96,7 +79,7 @@ public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") Stri
 
     @GetMapping("/user/{postsId}")
     public ResponseEntity<List<PostsDto>> getUserPosts(@RequestHeader("Authorization") String jwt,
-                                                       @PathVariable Long postsId){
+                                                       @PathVariable("postsId") Long postsId){
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
 
@@ -132,17 +115,55 @@ public ResponseEntity<PostsDto> createPosts(@RequestHeader("Authorization") Stri
         return new ResponseEntity<>(updatePosts, HttpStatus.OK);
     }
 
-    @PostMapping("/{postId}/hiddenPost")
-    public ResponseEntity<PostsDto> createHiddenPost(
+    @PostMapping("/sharepost")
+    public ResponseEntity<PostsDto> sharePost(
+            @RequestHeader("Authorization") String jwt, @RequestBody PostsRequest postsRequest){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        Posts posts = postsService.sharePost(userReq, postsRequest);
+        PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
+
+        return new ResponseEntity<>(postsDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/{postId}/bookmark")
+    public ResponseEntity<PostsDto> bookmarkPost(
             @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
         String email = jwtUtils.getEmailFromToken(jwt);
         User userReq = userService.getUserByEmail(email);
 
-        Posts posts = postsService.findById(postId);
+        Posts posts = postsService.bookmarkPost(userReq, postId);
         PostsDto postsDto = PostsMapper.INSTANCE.postsToPostsDto(posts,userReq, CommentMapper.INSTANCE);
 
-        hiddentPostService.createHiddenPosts(posts, userReq);
-        return new ResponseEntity<>(postsDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(postsDto, HttpStatus.OK);
     }
 
+    @GetMapping("/bookmark")
+    public ResponseEntity<List<BookmarkDto>> getBookmarkPost(
+            @RequestHeader("Authorization") String jwt){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        List<BookmarkPost> posts = postsService.getAllBookmarkPost(userReq);
+        List<BookmarkDto> postsDtos = new ArrayList<>();
+
+        for(BookmarkPost post : posts){
+            postsDtos.add(BookmarkMapper.INSTANCE.bookmarkToBookmarkDto(post));
+        }
+
+        return new ResponseEntity<>(postsDtos, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/bookmark/{bookmarkId}")
+    public ResponseEntity<BookmarkDto> deleteBookmarkPost(
+            @RequestHeader("Authorization") String jwt, @PathVariable Long bookmarkId){
+        String email = jwtUtils.getEmailFromToken(jwt);
+        User userReq = userService.getUserByEmail(email);
+
+        BookmarkPost posts = postsService.deleteBookmarkpost(bookmarkId);
+        BookmarkDto postsDtos = BookmarkMapper.INSTANCE.bookmarkToBookmarkDto(posts);
+
+        return new ResponseEntity<>(postsDtos, HttpStatus.OK);
+    }
 }
