@@ -29,7 +29,6 @@ const PostsCard = ({ item }) => {
     const [isUpdatePost, setIsUpdatePost] = React.useState(false);
     const handleOpenUpdatePost = () => {
         setIsUpdatePost(true);
-        handleCloseMore()
     }
     const handleCloseUpdatePost = () => setIsUpdatePost(false);
 
@@ -149,8 +148,8 @@ const PostsCard = ({ item }) => {
                         <Menu
                             id="basic-menu"
                             anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
+                            open={openMore}
+                            onClose={handleCloseMore}
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
                             }}

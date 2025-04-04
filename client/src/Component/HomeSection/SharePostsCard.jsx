@@ -52,8 +52,8 @@ const SharePostsCard = ({item}) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const handleProfile = () => {
-       navigate(`/profile/${item?.user?.id}`)
+   const handleProfile = (id) => {
+       navigate(`/profile/${id}`)
    }
 
    const handleBlockUser = () => {
@@ -116,7 +116,7 @@ const SharePostsCard = ({item}) => {
     {/* Phần header của người chia sẻ */}
     <div className="flex items-start space-x-4">
       <Avatar
-        onClick={handleProfile}
+        onClick={() => handleProfile(item.user.id)}
         className="border-2 border-green-400 shadow-sm cursor-pointer"
         src={item?.user?.image}
       />
@@ -168,7 +168,7 @@ const SharePostsCard = ({item}) => {
         <div className="border rounded-lg bg-gray-50 mt-4 p-4">
           <div className="flex items-start space-x-4">
             <Avatar
-              onClick={handleProfile}
+              onClick={() => handleProfile(item.originalPost.user.id)}
               className="border-2 border-green-400 shadow-sm cursor-pointer"
               src={item?.originalPost?.user?.image}
             />
