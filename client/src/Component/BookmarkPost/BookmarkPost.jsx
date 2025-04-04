@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteBookmark, getBookmarkUser } from '../../Store/Posts/Action';
 import { Avatar } from '@mui/material';
-import { formatDistanceToNow } from "date-fns";
-import { vi } from "date-fns/locale";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CommentModal from '../HomeSection/CommentModal';
+import { formatTimeDifference } from '../../Utils/formatTimeDifferent';
 
 const BookmarkPost = () => {
     //Mở modal comment
@@ -71,7 +70,7 @@ const BookmarkPost = () => {
                                 <span className="text-blue-500 font-medium">
                                     {bookmarkPost.posts.user.fullName}
                                 </span>{" "}
-                                {formatDistanceToNow(new Date(bookmarkPost.createdAt), { addSuffix: true, locale: vi })}
+                                 <p className="text-sm text-gray-400">{formatTimeDifference(bookmarkPost.createdAt)}</p>
                             </p>
                         </div>
                         <CommentModal
