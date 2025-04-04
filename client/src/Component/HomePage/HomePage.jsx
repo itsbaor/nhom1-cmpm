@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useChat } from '../Messages/ChatContext';
 import { getProfileByJwt, updateUserListStatus, updateUserStatus } from '../../Store/Auth/action';
 import { initializeWebSocket } from '../../config/websocket';
+import BookmarkPost from '../BookmarkPost/BookmarkPost';
 
 const HomePage = () => {
   const location = useLocation()
@@ -96,6 +97,7 @@ const HomePage = () => {
                     <Route path="/" element={<HomeSection />} />
                     <Route path="/profile/:id" element={<Profile />} />
                     <Route path="/postDetail/:id" element={<PostDetails />} />
+                    <Route path="/bookmark" element={<BookmarkPost />} />
                     <Route path="/messages" element={<Message />} />
                     <Route path="/friend/*" element={<Friend />} />
                 </Routes>
