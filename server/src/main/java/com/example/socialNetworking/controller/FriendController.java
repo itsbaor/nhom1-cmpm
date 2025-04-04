@@ -51,7 +51,7 @@ public class FriendController {
 
     @GetMapping("/require/{userId}")
     public ResponseEntity<Friend_RequestDto> requestAddFriend(
-            @RequestHeader("Authorization") String jwt, @PathVariable Long userId) {
+            @RequestHeader("Authorization") String jwt, @PathVariable("userId") Long userId) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
         User findUser = userService.findById(userId);
@@ -63,7 +63,7 @@ public class FriendController {
 
     @GetMapping("/refuse/{userId}")
     public ResponseEntity<Friend_RequestDto> refuseAddFriend(
-            @RequestHeader("Authorization") String jwt, @PathVariable Long userId) {
+            @RequestHeader("Authorization") String jwt, @PathVariable("userId") Long userId) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
         User findUser = userService.findById(userId);
@@ -75,7 +75,7 @@ public class FriendController {
 
     @GetMapping("/accept/{userId}")
     public ResponseEntity<FriendDto> accpeptAddFriend(
-            @RequestHeader("Authorization") String jwt, @PathVariable Long userId) {
+            @RequestHeader("Authorization") String jwt, @PathVariable("userId") Long userId) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
         User findUser = userService.findById(userId);
@@ -138,7 +138,7 @@ public class FriendController {
 
     @DeleteMapping("/unfriend/{userId}")
     public ResponseEntity<FriendDto> unfiend(
-            @RequestHeader("Authorization") String jwt, @PathVariable Long userId) {
+            @RequestHeader("Authorization") String jwt, @PathVariable("userId") Long userId) {
         String email = jwtUtils.getEmailFromToken(jwt);
         User user = userService.getUserByEmail(email);
         User findUser = userService.findById(userId);

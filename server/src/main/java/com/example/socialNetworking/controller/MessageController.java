@@ -40,7 +40,8 @@ public class MessageController {
     }
 
     @GetMapping("/{senderId}/{recipientId}")
-    public ResponseEntity<List<MessageDto>> getMessages(@PathVariable Long senderId, @PathVariable Long recipientId){
+    public ResponseEntity<List<MessageDto>> getMessages(
+            @PathVariable("senderId") Long senderId, @PathVariable("recipientId") Long recipientId){
         List<Message> messages = messageService.getMessages(senderId, recipientId);
 
         List<MessageDto> messageDtos = new ArrayList<>();

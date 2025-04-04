@@ -91,7 +91,7 @@ public class UserController {
 
     @PostMapping("/{postId}/hiddenUser")
     public ResponseEntity<PostsDto> createHiddenUser(
-            @PathVariable Long postId, @RequestHeader("Authorization") String jwt){
+            @PathVariable("postId") Long postId, @RequestHeader("Authorization") String jwt){
         String email = jwtUtils.getEmailFromToken(jwt);
         User userReq = userService.getUserByEmail(email);
 
